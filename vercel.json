@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "BuyCommodity/wsgi.py",
+      "src": "BuyCom/wsgi.py",
       "use": "@vercel/python",
       "config": {
         "runtime": "python3.12",
@@ -17,7 +17,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "BuyCommodity/wsgi.py"
+      "dest": "BuyCom/wsgi.py"
     }
   ]
 }
