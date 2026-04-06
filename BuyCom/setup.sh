@@ -54,7 +54,7 @@ echo -e "${BOLD}${GREEN}══════════════════�
 echo -e "${BOLD}${GREEN}  Setup complete! Open these in browser:  ${NC}"
 echo -e "${BOLD}${GREEN}══════════════════════════════════════════${NC}"
 echo ""
-echo -e "  ${ORANGE}API:          ${NC}http://localhost:8000/api/"
+echo -e "  ${ORANGE}API:          ${NC}http://localhost:8000/"
 echo -e "  ${ORANGE}Django Admin: ${NC}http://localhost:8000/admin/"
 echo -e "  ${ORANGE}Customer Site:${NC} Open ../site1/index.html"
 echo -e "  ${ORANGE}Admin Panel:  ${NC} Open ../site2/index.html"

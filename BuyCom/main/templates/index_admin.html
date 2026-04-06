@@ -326,7 +326,7 @@ function sw(id) {
 
 // ==================== DASHBOARD ====================
 async function loadDash() {
-  const stats = await req('/api/admin/stats/') || {};
+  const stats = await req('/admin/stats/') || {};
   document.getElementById('stat-row').innerHTML = `
     <div class="sc"><div class="sc-lbl">Categories</div><div class="sc-num">${stats.total_categories||0}</div></div>
     <div class="sc g"><div class="sc-lbl">Active Products</div><div class="sc-num">${stats.active_products||0}</div></div>
@@ -335,7 +335,7 @@ async function loadDash() {
     <div class="sc r"><div class="sc-lbl">Unread</div><div class="sc-num">${stats.unread_inquiries||0}</div></div>
   `;
 
-  const prods = await req('/api/admin/products/') || [];
+  const prods = await req('/admin/products/') || [];
   let html = '';
   prods.slice(0, 8).forEach(p => {
     html += `<div style="padding:12px 16px;border-bottom:1px solid var(--bdr2);display:flex;align-items:center;gap:12px">
@@ -346,7 +346,7 @@ async function loadDash() {
   });
   document.getElementById('qp-list').innerHTML = html || '<p style="padding:30px;color:var(--brown);text-align:center">No products found</p>';
 
-  const inqs = await req('/api/admin/inquiries/') || [];
+  const inqs = await req('/admin/inquiries/') || [];
   document.getElementById('dash-inq').innerHTML = inqs.slice(0,5).map(i => `
     <tr><td><strong>${i.name}</strong></td><td>${i.email||''}</td><td>${i.is_read?'✅':'🟠'}</td></tr>
   `).join('');
@@ -356,7 +356,7 @@ async function quickPrice(id) {
   const val = document.getElementById('qp' + id)?.value;
   if (!val) return toast('Enter a price', 'tr');
 
-  const result = await req(`/api/admin/products/${id}/price/`, {
+  const result = await req(`/admin/products/${id}/price/`, {
     method: 'PATCH',
     body: JSON.stringify({ price_per_ton: parseFloat(val) })
   });
@@ -369,7 +369,7 @@ async function quickPrice(id) {
 
 // ==================== PRODUCTS ====================
 async function loadProds() {
-  const data = await req('/api/admin/products/') || [];
+  const data = await req('/admin/products/') || [];
   document.getElementById('prod-tbody').innerHTML = data.map(p => `
     <tr>
       <td>${p.name}</td>
@@ -384,7 +384,7 @@ async function loadProds() {
 }
 
 async function toggleProductStatus(id) {
-  const res = await req(`/api/admin/products/${id}/toggle/`, { method: 'PATCH' });
+  const res = await req(`/admin/products/${id}/toggle/`, { method: 'PATCH' });
   if (res?.success) {
     toast('Product status updated', 'tg');
     loadProds();
@@ -394,7 +394,7 @@ async function toggleProductStatus(id) {
 
 // ==================== CATEGORIES ====================
 async function loadCats() {
-  const data = await req('/api/admin/categories/') || [];
+  const data = await req('/admin/categories/') || [];
   document.getElementById('cat-tbody').innerHTML = data.map(c => `
     <tr>
       <td>${c.icon || '📁'}</td>
@@ -409,7 +409,7 @@ async function loadCats() {
 
 // ==================== PRICE CONTROL ====================
 async function loadPrices() {
-  const prods = await req('/api/admin/products/') || [];
+  const prods = await req('/admin/products/') || [];
   document.getElementById('price-tbody').innerHTML = prods.map(p => `
     <tr>
       <td>${p.name}</td>
@@ -422,7 +422,7 @@ async function loadPrices() {
 
 // ==================== INQUIRIES ====================
 async function loadInqs() {
-  const data = await req('/api/admin/inquiries/') || [];
+  const data = await req('/admin/inquiries/') || [];
   document.getElementById('inq-tbody').innerHTML = data.map(i => `
     <tr>
       <td>${i.name}</td>
@@ -439,7 +439,7 @@ async function loadInqs() {
 }
 
 async function markInquiryRead(id) {
-  const res = await req(`/api/admin/inquiries/${id}/read/`, { method: 'PATCH' });
+  const res = await req(`/admin/inquiries/${id}/read/`, { method: 'PATCH' });
   if (res?.success) {
     toast('Inquiry marked as read', 'tg');
     loadInqs();
@@ -449,7 +449,7 @@ async function markInquiryRead(id) {
 
 async function deleteInquiry(id) {
   if (!confirm('Delete this inquiry permanently?')) return;
-  const res = await req(`/api/admin/inquiries/${id}/delete/`, { method: 'DELETE' });
+  const res = await req(`/admin/inquiries/${id}/delete/`, { method: 'DELETE' });
   if (res?.success) {
     toast('Inquiry deleted successfully', 'tg');
     loadInqs();
@@ -464,7 +464,7 @@ async function openAddProd() {
   document.getElementById('prod-desc').value = '';
 
   // Load categories for dropdown
-  const cats = await req('/api/admin/categories/') || [];
+  const cats = await req('/admin/categories/') || [];
   const select = document.getElementById('prod-category');
   select.innerHTML = '<option value="">Select Category</option>' +
     cats.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
@@ -488,7 +488,7 @@ async function saveProd() {
     description: document.getElementById('prod-desc').value.trim()
   };
 
-  const result = await req('/api/admin/products/', {
+  const result = await req('/admin/products/', {
     method: 'POST',
     body: JSON.stringify(data)
   });
