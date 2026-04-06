@@ -175,6 +175,12 @@ class AdminProductDetailView(generics.RetrieveUpdateDestroyAPIView):
                 note      = 'Updated via admin panel',
             )
         serializer.save()
+    def get(self, request, id):
+        product = Product.objects.get(id=id)
+        return Response({
+            "id": product.id,
+            "price": product.price
+        })
 
 @csrf_exempt
 @api_view(['PATCH'])
