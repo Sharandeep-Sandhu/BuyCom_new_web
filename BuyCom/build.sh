@@ -2,6 +2,8 @@
 
 echo "🚀 BUILD START"
 
+source myfirstproject/Scripts/activat
+
 BuyCom/pip install -r requirements.txt
 
 python manage.py collectstatic --noinput --clear
