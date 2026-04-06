@@ -2,25 +2,49 @@ from rest_framework import serializers
 from .models import Category, Product, PriceHistory, ContactInquiry
 
 
+
 class ProductSerializer(serializers.ModelSerializer):
-    # category_name = serializers.SerializerMethodField()
-    category_name = serializers.CharField(source='category.name', read_only=True)
-
+    """
+    Full product serializer.
+    • `category`   — writable FK (accepts integer ID on write)
+    • `category_name` — read-only helper
+    • `image`      — writable ImageField (multipart upload)
+    • `image_url`  — read-only absolute URL built from request context
+    """
+    category_name = serializers.SerializerMethodField(read_only=True)
+    image_url     = serializers.SerializerMethodField(read_only=True)
+ 
+    # Allow image to be optional on both create and update
+    image = serializers.ImageField(
+        required=False,
+        allow_null=True,
+        use_url=True,
+    )
+ 
     class Meta:
-        model = Product
-        fields = [
-            'id', 'name', 'slug', 'category', 'category_name',
-            'price_per_ton', 'description', 'is_active', 
-            'price_visible', 'created_at', 'updated_at'
-        ]
-        # Make slug optional for creation (we generate it automatically)
-        extra_kwargs = {
-            'slug': {'required': False, 'allow_blank': True},
-        }
-        read_only_fields = ['id', 'created_at', 'updated_at']
-
+        model  = Product
+        # fields = [
+        #     'id', 'category', 'category_name',
+        #     'name', 'slug', 'description',
+        #     'image', 'image_url',
+        #     'thickness_range', 'width_range', 'length_range', 'size_info', 'grade',
+        #     'price_per_ton', 'price_unit', 'price_visible',
+        #     'is_active', 'is_featured', 'order',
+        #     'created_at', 'updated_at',
+        # ]
+        fields = '__all__'
+        read_only_fields = ['slug', 'created_at', 'updated_at']
+ 
     def get_category_name(self, obj):
-        return obj.category.name if obj.category else ''
+        return obj.category.name if obj.category_id else ''
+ 
+    def get_image_url(self, obj):
+        if not obj.image:
+            return None
+        request = self.context.get('request')
+        if request:
+            return request.build_absolute_uri(obj.image.url)
+        return obj.image.url
 
 
 class CategoryListSerializer(serializers.ModelSerializer):

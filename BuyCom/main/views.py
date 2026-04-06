@@ -9,6 +9,9 @@ from .models import Category, Product, PriceHistory, ContactInquiry
 from django.shortcuts import render
 from django.utils.text import slugify
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.parsers   import MultiPartParser, FormParser, JSONParser
+
+
 
 from .serializers import (
     CategoryListSerializer, CategoryDetailSerializer,
@@ -122,17 +125,27 @@ class AdminCategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
 # ── Products ──────────────────────────────────────────────────────────
 @permission_classes([AllowAny])
 class AdminProductListCreateView(generics.ListCreateAPIView):
-    """GET /api/admin/products/?category=<slug>   POST /api/admin/products/"""
-    serializer_class = ProductSerializer
-    permission_classes = [AllowAny]          # ← Add this line
-
+    """
+    GET  /admin/products/?category=<slug>
+    POST /admin/products/                  (multipart or JSON)
+    """
+    serializer_class   = ProductSerializer
+    permission_classes = [AllowAny]
+    # Accept both JSON and multipart/form-data (for image uploads)
+    parser_classes     = [MultiPartParser, FormParser, JSONParser]
+ 
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        ctx['request'] = self.request
+        return ctx
+ 
     def get_queryset(self):
-        qs = Product.objects.all().select_related('category')
+        qs  = Product.objects.all().select_related('category')
         cat = self.request.query_params.get('category')
         if cat:
             qs = qs.filter(category__slug=cat)
         return qs
-
+ 
     def perform_create(self, serializer):
         name     = serializer.validated_data.get('name', '')
         category = serializer.validated_data.get('category')
@@ -143,7 +156,6 @@ class AdminProductListCreateView(generics.ListCreateAPIView):
         while Product.objects.filter(slug=slug).exists():
             slug = f'{base}-{counter}'
             counter += 1
-
         serializer.save(slug=slug)
 
 

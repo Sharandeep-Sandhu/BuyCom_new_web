@@ -30,7 +30,14 @@ class Product(models.Model):
     name            = models.CharField(max_length=200)
     slug            = models.SlugField(unique=True, max_length=250)
     description     = models.TextField(blank=True)
-
+    
+    # ── IMAGE ──────────────────────────────────────────────────────────
+    image           = models.ImageField(
+                        upload_to='products/',
+                        blank=True,
+                        null=True,
+                        help_text='Product image (JPEG/PNG, max 5 MB recommended)'
+                      )
     # Specifications
     thickness_range = models.CharField(max_length=120, blank=True)
     width_range     = models.CharField(max_length=120, blank=True)
