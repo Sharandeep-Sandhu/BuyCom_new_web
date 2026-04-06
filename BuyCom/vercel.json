@@ -4,19 +4,11 @@
     {
       "src": "BuyCom/wsgi.py",
       "use": "@vercel/python",
-      "config": {
-        "runtime": "python3.12"
-      }
+      "config": { "runtime": "python3.12" }
     }
   ],
-  "routes": [
-    {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "BuyCom/wsgi.py"
-    }
+  "rewrites": [
+    { "source": "/static/(.*)", "destination": "/static/$1" },
+    { "source": "/(.*)", "destination": "/BuyCom/wsgi.py" }
   ]
 }
