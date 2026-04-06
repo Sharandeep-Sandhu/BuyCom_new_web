@@ -1,516 +1,998 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Buy Commodity — Admin Panel</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet"/>
-<style>
-:root{
-  --bg:#fdf8ef;
-  --bg2:#f7f0e0;
-  --bg3:#f0e8d0;
-  --panel:#fefbf5;
-  --sidebar:#f0e8d0;
-  --orange:#e87020;
-  --orange2:#c85a08;
-  --dark:#1c1409;
-  --brown:#7a5c2e;
-  --gray:#9a8878;
-  --bdr:rgba(122,92,46,.14);
-  --bdr2:rgba(122,92,46,.08);
-  --r:6px;
-  --fd:'Bebas Neue',sans-serif;
-  --fc:'Barlow Condensed',sans-serif;
-  --fb:'Barlow',sans-serif;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden}
-body{background:var(--bg);color:var(--dark);font-family:var(--fb);font-size:14px;display:flex}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Buy Commodity — Admin Panel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #fdf8ef;
+        --bg2: #f7f0e0;
+        --bg3: #f0e8d0;
+        --panel: #fefbf5;
+        --sidebar: #f0e8d0;
+        --orange: #e87020;
+        --orange2: #c85a08;
+        --dark: #1c1409;
+        --brown: #7a5c2e;
+        --gray: #9a8878;
+        --bdr: rgba(122, 92, 46, 0.14);
+        --bdr2: rgba(122, 92, 46, 0.08);
+        --r: 6px;
+        --fd: "Bebas Neue", sans-serif;
+        --fc: "Barlow Condensed", sans-serif;
+        --fb: "Barlow", sans-serif;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+      }
+      body {
+        background: var(--bg);
+        color: var(--dark);
+        font-family: var(--fb);
+        font-size: 14px;
+        display: flex;
+      }
 
-.sb{width:240px;background:var(--sidebar);border-right:2px solid var(--bdr);display:flex;flex-direction:column;flex-shrink:0;height:100vh;overflow-y:auto}
-.sb-logo{padding:20px 18px 16px;border-bottom:2px solid var(--bdr)}
-.sb-logo-wrap{display:flex;align-items:center;gap:10px}
-.hex{width:38px;height:38px;background:var(--orange);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:17px;color:#fff}
-.sb-brand{font-family:var(--fc);font-size:1.25rem;font-weight:700;color:var(--dark)}
-.sb-badge{background:rgba(232,112,32,.14);border:1px solid rgba(232,112,32,.28);color:var(--orange);font-size:.62rem;padding:2px 9px;border-radius:12px;font-family:var(--fc);font-weight:700}
+      .sb {
+        width: 240px;
+        background: var(--sidebar);
+        border-right: 2px solid var(--bdr);
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        height: 100vh;
+        overflow-y: auto;
+      }
+      .sb-logo {
+        padding: 20px 18px 16px;
+        border-bottom: 2px solid var(--bdr);
+      }
+      .sb-logo-wrap {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .hex {
+        width: 38px;
+        height: 38px;
+        background: var(--orange);
+        clip-path: polygon(
+          50% 0%,
+          100% 25%,
+          100% 75%,
+          50% 100%,
+          0% 75%,
+          0% 25%
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--fd);
+        font-size: 17px;
+        color: #fff;
+      }
+      .sb-brand {
+        font-family: var(--fc);
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--dark);
+      }
+      .sb-badge {
+        background: rgba(232, 112, 32, 0.14);
+        border: 1px solid rgba(232, 112, 32, 0.28);
+        color: var(--orange);
+        font-size: 0.62rem;
+        padding: 2px 9px;
+        border-radius: 12px;
+        font-family: var(--fc);
+        font-weight: 700;
+      }
 
-.nav-section{padding:14px 0}
-.nav-lbl{padding:0 14px 7px;font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--brown);font-weight:700}
-.ni{display:flex;align-items:center;gap:9px;padding:11px 14px;cursor:pointer;transition:.15s;border-left:3px solid transparent;color:var(--brown);font-size:.9rem;font-weight:600}
-.ni:hover{background:var(--bg3);color:var(--dark)}
-.ni.on{background:rgba(232,112,32,.1);color:var(--orange);border-left-color:var(--orange)}
-.ni-icon{font-size:1.1rem;width:24px;text-align:center}
+      .nav-section {
+        padding: 14px 0;
+      }
+      .nav-lbl {
+        padding: 0 14px 7px;
+        font-size: 0.62rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--brown);
+        font-weight: 700;
+      }
+      .ni {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 11px 14px;
+        cursor: pointer;
+        transition: 0.15s;
+        border-left: 3px solid transparent;
+        color: var(--brown);
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+      .ni:hover {
+        background: var(--bg3);
+        color: var(--dark);
+      }
+      .ni.on {
+        background: rgba(232, 112, 32, 0.1);
+        color: var(--orange);
+        border-left-color: var(--orange);
+      }
+      .ni-icon {
+        font-size: 1.1rem;
+        width: 24px;
+        text-align: center;
+      }
 
-.main{flex:1;overflow-y:auto;height:100vh;display:flex;flex-direction:column}
-.topbar{padding:13px 26px;border-bottom:2px solid var(--bdr2);display:flex;align-items:center;justify-content:space-between;background:var(--bg2)}
-.topbar h1{font-family:var(--fd);font-size:1.8rem;letter-spacing:1px;color:var(--dark)}
-.live-dot{display:flex;align-items:center;gap:6px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);padding:5px 12px;border-radius:4px;font-size:.76rem;color:var(--brown)}
-.content{padding:26px;flex:1;overflow-y:auto}
+      .main {
+        flex: 1;
+        overflow-y: auto;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      .topbar {
+        padding: 13px 26px;
+        border-bottom: 2px solid var(--bdr2);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--bg2);
+      }
+      .topbar h1 {
+        font-family: var(--fd);
+        font-size: 1.8rem;
+        letter-spacing: 1px;
+        color: var(--dark);
+      }
+      .live-dot {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(34, 197, 94, 0.1);
+        border: 1px solid rgba(34, 197, 94, 0.3);
+        padding: 5px 12px;
+        border-radius: 4px;
+        font-size: 0.76rem;
+        color: var(--brown);
+      }
+      .content {
+        padding: 26px;
+        flex: 1;
+        overflow-y: auto;
+      }
 
-.view{display:none}
-.view.on{display:block}
+      .view {
+        display: none;
+      }
+      .view.on {
+        display: block;
+      }
 
-.stat-row{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:26px}
-.sc{background:var(--panel);border:2px solid var(--bdr);border-radius:var(--r);padding:20px 18px;position:relative;box-shadow:0 4px 20px rgba(122,92,46,.07)}
-.sc::after{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--orange)}
-.sc.g::after{background:#22c55e}
-.sc.r::after{background:#ef4444}
-.sc.b::after{background:#3b82f6}
-.sc-lbl{font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--brown);margin-bottom:6px;font-weight:700}
-.sc-num{font-family:var(--fd);font-size:2.6rem;color:var(--dark);line-height:1}
+      .stat-row {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 16px;
+        margin-bottom: 26px;
+      }
+      .sc {
+        background: var(--panel);
+        border: 2px solid var(--bdr);
+        border-radius: var(--r);
+        padding: 20px 18px;
+        position: relative;
+        box-shadow: 0 4px 20px rgba(122, 92, 46, 0.07);
+      }
+      .sc::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--orange);
+      }
+      .sc.g::after {
+        background: #22c55e;
+      }
+      .sc.r::after {
+        background: #ef4444;
+      }
+      .sc.b::after {
+        background: #3b82f6;
+      }
+      .sc-lbl {
+        font-size: 0.7rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--brown);
+        margin-bottom: 6px;
+        font-weight: 700;
+      }
+      .sc-num {
+        font-family: var(--fd);
+        font-size: 2.6rem;
+        color: var(--dark);
+        line-height: 1;
+      }
 
-.card{background:var(--panel);border:2px solid var(--bdr);border-radius:var(--r);overflow:hidden;box-shadow:0 4px 20px rgba(122,92,46,.07)}
-.card-head{padding:16px 20px;border-bottom:2px solid var(--bdr2);display:flex;align-items:center;justify-content:space-between}
-.card-title{font-family:var(--fc);font-size:1.1rem;font-weight:700;color:var(--dark)}
+      .card {
+        background: var(--panel);
+        border: 2px solid var(--bdr);
+        border-radius: var(--r);
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(122, 92, 46, 0.07);
+      }
+      .card-head {
+        padding: 16px 20px;
+        border-bottom: 2px solid var(--bdr2);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .card-title {
+        font-family: var(--fc);
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--dark);
+      }
 
-.tbl-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse}
-th{font-family:var(--fc);font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--brown);padding:12px 16px;text-align:left;border-bottom:2px solid var(--bdr2)}
-td{padding:12px 16px;border-bottom:1px solid var(--bdr2);font-size:.85rem;color:var(--dark)}
-tr:hover td{background:var(--bg3)}
+      .tbl-wrap {
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th {
+        font-family: var(--fc);
+        font-size: 0.7rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--brown);
+        padding: 12px 16px;
+        text-align: left;
+        border-bottom: 2px solid var(--bdr2);
+      }
+      td {
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--bdr2);
+        font-size: 0.85rem;
+        color: var(--dark);
+      }
+      tr:hover td {
+        background: var(--bg3);
+      }
 
-.inp-s,.sel-s{background:var(--bg2);border:2px solid var(--bdr);color:var(--dark);padding:9px 14px;border-radius:4px;font-size:.85rem;outline:none}
-.inp-s:focus,.sel-s:focus{border-color:var(--orange)}
+      .inp-s,
+      .sel-s {
+        background: var(--bg2);
+        border: 2px solid var(--bdr);
+        color: var(--dark);
+        padding: 9px 14px;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        outline: none;
+      }
+      .inp-s:focus,
+      .sel-s:focus {
+        border-color: var(--orange);
+      }
 
-.btn{padding:7px 16px;border-radius:4px;border:none;font-family:var(--fc);font-size:.85rem;font-weight:700;cursor:pointer;transition:.15s}
-.btn-o{background:var(--orange);color:#fff}
-.btn-o:hover{background:var(--orange2)}
-.btn-gh{background:var(--bg3);color:var(--brown);border:2px solid var(--bdr)}
-.btn-r{background:rgba(239,68,68,.1);color:#ef4444;border:2px solid rgba(239,68,68,.3)}
-.btn-g{background:rgba(34,197,94,.1);color:#22c55e;border:2px solid rgba(34,197,94,.3)}
+      .btn {
+        padding: 7px 16px;
+        border-radius: 4px;
+        border: none;
+        font-family: var(--fc);
+        font-size: 0.85rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.15s;
+      }
+      .btn-o {
+        background: var(--orange);
+        color: #fff;
+      }
+      .btn-o:hover {
+        background: var(--orange2);
+      }
+      .btn-gh {
+        background: var(--bg3);
+        color: var(--brown);
+        border: 2px solid var(--bdr);
+      }
+      .btn-r {
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+        border: 2px solid rgba(239, 68, 68, 0.3);
+      }
+      .btn-g {
+        background: rgba(34, 197, 94, 0.1);
+        color: #22c55e;
+        border: 2px solid rgba(34, 197, 94, 0.3);
+      }
 
-.overlay{position:fixed;inset:0;background:rgba(28,20,9,.75);z-index:300;display:none;align-items:center;justify-content:center}
-.overlay.on{display:flex}
-.modal{background:var(--panel);border:2px solid var(--bdr);border-radius:var(--r);width:100%;max-width:560px;max-height:92vh;display:flex;flex-direction:column}
-.modal-h{padding:20px 24px;border-bottom:2px solid var(--bdr2);display:flex;align-items:center;justify-content:space-between}
-.modal-h h3{font-family:var(--fd);font-size:1.6rem;color:var(--dark)}
-.modal-close{background:none;border:none;color:var(--brown);font-size:1.4rem;cursor:pointer}
-.modal-b{padding:24px;overflow-y:auto;flex:1}
-.f-grp{margin-bottom:18px}
-.f-lbl{display:block;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--brown);font-weight:700;margin-bottom:6px}
-.f-inp,.f-sel,.f-area{width:100%;background:var(--bg2);border:2px solid var(--bdr);color:var(--dark);padding:11px 14px;border-radius:4px;outline:none}
-.f-inp:focus,.f-sel:focus,.f-area:focus{border-color:var(--orange)}
+      .overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(28, 20, 9, 0.75);
+        z-index: 300;
+        display: none;
+        align-items: center;
+        justify-content: center;
+      }
+      .overlay.on {
+        display: flex;
+      }
+      .modal {
+        background: var(--panel);
+        border: 2px solid var(--bdr);
+        border-radius: var(--r);
+        width: 100%;
+        max-width: 560px;
+        max-height: 92vh;
+        display: flex;
+        flex-direction: column;
+      }
+      .modal-h {
+        padding: 20px 24px;
+        border-bottom: 2px solid var(--bdr2);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .modal-h h3 {
+        font-family: var(--fd);
+        font-size: 1.6rem;
+        color: var(--dark);
+      }
+      .modal-close {
+        background: none;
+        border: none;
+        color: var(--brown);
+        font-size: 1.4rem;
+        cursor: pointer;
+      }
+      .modal-b {
+        padding: 24px;
+        overflow-y: auto;
+        flex: 1;
+      }
+      .f-grp {
+        margin-bottom: 18px;
+      }
+      .f-lbl {
+        display: block;
+        font-size: 0.7rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--brown);
+        font-weight: 700;
+        margin-bottom: 6px;
+      }
+      .f-inp,
+      .f-sel,
+      .f-area {
+        width: 100%;
+        background: var(--bg2);
+        border: 2px solid var(--bdr);
+        color: var(--dark);
+        padding: 11px 14px;
+        border-radius: 4px;
+        outline: none;
+      }
+      .f-inp:focus,
+      .f-sel:focus,
+      .f-area:focus {
+        border-color: var(--orange);
+      }
 
-.toast-wrap{position:fixed;bottom:24px;right:24px;z-index:400;display:flex;flex-direction:column;gap:8px}
-.toast{background:var(--panel);border:2px solid var(--bdr);border-radius:var(--r);padding:12px 18px;box-shadow:0 6px 25px rgba(122,92,46,.15)}
-.toast.tg{border-left:4px solid #22c55e}
-.toast.tr{border-left:4px solid #ef4444}
-.toast.to{border-left:4px solid var(--orange)}
-</style>
-</head>
-<body>
-
-<!-- SIDEBAR -->
-<aside class="sb">
-  <div class="sb-logo">
-    <div class="sb-logo-wrap">
-      <div class="hex">BC</div>
-      <div class="sb-brand">Buy Commodity</div>
-    </div>
-    <div class="sb-badge">ADMIN PANEL</div>
-  </div>
-
-  <div class="nav-section">
-    <div class="nav-lbl">Dashboard</div>
-    <div class="ni on" onclick="sw('dashboard')" id="ni-dashboard"><span class="ni-icon">📊</span>Overview</div>
-  </div>
-  <div class="nav-section">
-    <div class="nav-lbl">Catalogue</div>
-    <div class="ni" onclick="sw('products')" id="ni-products"><span class="ni-icon">📦</span>Products</div>
-    <div class="ni" onclick="sw('categories')" id="ni-categories"><span class="ni-icon">🗂️</span>Categories</div>
-    <div class="ni" onclick="sw('prices')" id="ni-prices"><span class="ni-icon">💰</span>Price Control</div>
-  </div>
-  <div class="nav-section">
-    <div class="nav-lbl">Customers</div>
-    <div class="ni" onclick="sw('inquiries')" id="ni-inquiries">
-      <span class="ni-icon">✉️</span>Inquiries
-      <span class="unread-pill" id="unread-pill" style="display:none"></span>
-    </div>
-  </div>
-
-  <div class="sb-foot" style="margin-top:auto;padding:20px 18px;font-size:0.8rem;color:var(--brown);border-top:2px solid var(--bdr)">
-    <p>Buy Commodity Solutions<br><span>Admin Panel v2.1</span></p>
-  </div>
-</aside>
-
-<!-- MAIN -->
-<div class="main">
-  <div class="topbar">
-    <h1 id="page-title">Dashboard</h1>
-    <div class="topbar-r">
-      <div class="live-dot"><div class="dot"></div>API Connected</div>
-      <a href="http://localhost:8000/" target="_blank" class="btn btn-gh btn-sm">View Customer Site</a>
-    </div>
-  </div>
-
-  <div class="content">
-
-    <!-- DASHBOARD -->
-    <div class="view on" id="v-dashboard">
-      <div class="stat-row" id="stat-row"></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
-        <div class="card">
-          <div class="card-head"><div class="card-title">Quick Price Update</div></div>
-          <div id="qp-list" style="padding:10px"></div>
+      .toast-wrap {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 400;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .toast {
+        background: var(--panel);
+        border: 2px solid var(--bdr);
+        border-radius: var(--r);
+        padding: 12px 18px;
+        box-shadow: 0 6px 25px rgba(122, 92, 46, 0.15);
+      }
+      .toast.tg {
+        border-left: 4px solid #22c55e;
+      }
+      .toast.tr {
+        border-left: 4px solid #ef4444;
+      }
+      .toast.to {
+        border-left: 4px solid var(--orange);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- SIDEBAR -->
+    <aside class="sb">
+      <div class="sb-logo">
+        <div class="sb-logo-wrap">
+          <div class="hex">BC</div>
+          <div class="sb-brand">Buy Commodity</div>
         </div>
-        <div class="card">
-          <div class="card-head"><div class="card-title">Recent Inquiries</div></div>
-          <table><tbody id="dash-inq"></tbody></table>
+        <div class="sb-badge">ADMIN PANEL</div>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-lbl">Dashboard</div>
+        <div class="ni on" onclick="sw('dashboard')" id="ni-dashboard">
+          <span class="ni-icon">📊</span>Overview
+        </div>
+      </div>
+      <div class="nav-section">
+        <div class="nav-lbl">Catalogue</div>
+        <div class="ni" onclick="sw('products')" id="ni-products">
+          <span class="ni-icon">📦</span>Products
+        </div>
+        <div class="ni" onclick="sw('categories')" id="ni-categories">
+          <span class="ni-icon">🗂️</span>Categories
+        </div>
+        <div class="ni" onclick="sw('prices')" id="ni-prices">
+          <span class="ni-icon">💰</span>Price Control
+        </div>
+      </div>
+      <div class="nav-section">
+        <div class="nav-lbl">Customers</div>
+        <div class="ni" onclick="sw('inquiries')" id="ni-inquiries">
+          <span class="ni-icon">✉️</span>Inquiries
+          <span
+            class="unread-pill"
+            id="unread-pill"
+            style="display: none"
+          ></span>
+        </div>
+      </div>
+
+      <div
+        class="sb-foot"
+        style="
+          margin-top: auto;
+          padding: 20px 18px;
+          font-size: 0.8rem;
+          color: var(--brown);
+          border-top: 2px solid var(--bdr);
+        "
+      >
+        <p>Buy Commodity Solutions<br /><span>Admin Panel v2.1</span></p>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+      <div class="topbar">
+        <h1 id="page-title">Dashboard</h1>
+        <div class="topbar-r">
+          <div class="live-dot">
+            <div class="dot"></div>
+            API Connected
+          </div>
+          <a
+            href="http://localhost:8000/"
+            target="_blank"
+            class="btn btn-gh btn-sm"
+            >View Customer Site</a
+          >
+        </div>
+      </div>
+
+      <div class="content">
+        <!-- DASHBOARD -->
+        <div class="view on" id="v-dashboard">
+          <div class="stat-row" id="stat-row"></div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px">
+            <div class="card">
+              <div class="card-head">
+                <div class="card-title">Quick Price Update</div>
+              </div>
+              <div id="qp-list" style="padding: 10px"></div>
+            </div>
+            <div class="card">
+              <div class="card-head">
+                <div class="card-title">Recent Inquiries</div>
+              </div>
+              <table>
+                <tbody id="dash-inq"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRODUCTS VIEW -->
+        <div class="view" id="v-products">
+          <div class="card">
+            <div class="card-head">
+              <div class="card-title">All Products</div>
+              <button class="btn btn-o" onclick="openAddProd()">
+                + Add Product
+              </button>
+            </div>
+            <div class="tbl-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="prod-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- CATEGORIES VIEW -->
+        <div class="view" id="v-categories">
+          <div class="card">
+            <div class="card-head">
+              <div class="card-title">Categories</div>
+              <button class="btn btn-o" onclick="openAddCat()">
+                + Add Category
+              </button>
+            </div>
+            <div class="tbl-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Icon</th>
+                    <th>Name</th>
+                    <th>Slug</th>
+                    <th>Products</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="cat-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRICE CONTROL VIEW -->
+        <div class="view" id="v-prices">
+          <div class="card">
+            <div class="card-head">
+              <div class="card-title">Price Control</div>
+            </div>
+            <div class="tbl-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Current Price</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="price-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- INQUIRIES VIEW -->
+        <div class="view" id="v-inquiries">
+          <div class="card">
+            <div class="card-head">
+              <div class="card-title">Customer Inquiries</div>
+            </div>
+            <div class="tbl-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Product</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="inq-tbody"></tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- PRODUCTS VIEW -->
-    <div class="view" id="v-products">
-      <div class="card">
-        <div class="card-head">
-          <div class="card-title">All Products</div>
-          <button class="btn btn-o" onclick="openAddProd()">+ Add Product</button>
+    <!-- MODALS -->
+    <div class="overlay" id="m-prod">
+      <div class="modal">
+        <div class="modal-h">
+          <h3 id="prod-modal-ttl">Add Product</h3>
+          <button class="modal-close" onclick="closeModal('m-prod')">✕</button>
         </div>
-        <div class="tbl-wrap">
-          <table>
-            <thead><tr><th>Name</th><th>Category</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead>
-            <tbody id="prod-tbody"></tbody>
-          </table>
+        <div class="modal-b">
+          <div class="f-grp">
+            <label class="f-lbl">Product Name</label>
+            <input
+              type="text"
+              id="prod-name"
+              class="f-inp"
+              placeholder="e.g. Premium Basmati Rice"
+            />
+          </div>
+          <div class="f-grp">
+            <label class="f-lbl">Category</label>
+            <select id="prod-category" class="f-sel"></select>
+          </div>
+          <div class="f-grp">
+            <label class="f-lbl">Price per Ton (₹)</label>
+            <input
+              type="number"
+              step="0.01"
+              id="prod-price"
+              class="f-inp"
+              placeholder="45000"
+            />
+          </div>
+          <div class="f-grp">
+            <label class="f-lbl">Description</label>
+            <textarea
+              id="prod-desc"
+              class="f-area"
+              rows="4"
+              placeholder="Short description..."
+            ></textarea>
+          </div>
+        </div>
+        <div
+          class="modal-h"
+          style="
+            border-top: 2px solid var(--bdr2);
+            justify-content: flex-end;
+            gap: 10px;
+          "
+        >
+          <button class="btn btn-gh" onclick="closeModal('m-prod')">
+            Cancel
+          </button>
+          <button class="btn btn-o" onclick="saveProd()">Save Product</button>
         </div>
       </div>
     </div>
 
-    <!-- CATEGORIES VIEW -->
-    <div class="view" id="v-categories">
-      <div class="card">
-        <div class="card-head">
-          <div class="card-title">Categories</div>
-          <button class="btn btn-o" onclick="openAddCat()">+ Add Category</button>
-        </div>
-        <div class="tbl-wrap">
-          <table>
-            <thead><tr><th>Icon</th><th>Name</th><th>Slug</th><th>Products</th><th>Status</th><th>Actions</th></tr></thead>
-            <tbody id="cat-tbody"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+    <div class="toast-wrap" id="toasts"></div>
 
-    <!-- PRICE CONTROL VIEW -->
-    <div class="view" id="v-prices">
-      <div class="card">
-        <div class="card-head"><div class="card-title">Price Control</div></div>
-        <div class="tbl-wrap">
-          <table>
-            <thead><tr><th>Product</th><th>Category</th><th>Current Price</th><th>Actions</th></tr></thead>
-            <tbody id="price-tbody"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+    <script>
+      // ==================== CONFIG ====================
 
-    <!-- INQUIRIES VIEW -->
-    <div class="view" id="v-inquiries">
-      <div class="card">
-        <div class="card-head"><div class="card-title">Customer Inquiries</div></div>
-        <div class="tbl-wrap">
-          <table>
-            <thead><tr><th>Name</th><th>Email</th><th>Product</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
-            <tbody id="inq-tbody"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+      const API_BASE =
+        window.location.hostname === "localhost" ||
+        window.location.hostname.includes("127.0.0.1")
+          ? "http://localhost:8000"
+          : "";
+      // ==================== API HELPER ====================
+      async function req(endpoint, opts = {}) {
+        const url = API_BASE + endpoint;
+        try {
+          const res = await fetch(url, {
+            ...opts,
+            headers: {
+              "Content-Type": "application/json",
+              ...(opts.headers || {}),
+            },
+            signal: AbortSignal.timeout(15000),
+          });
 
-  </div>
-</div>
+          if (!res.ok) {
+            const errorText = await res.text().catch(() => res.statusText);
+            throw new Error(`HTTP ${res.status}: ${errorText}`);
+          }
 
-<!-- MODALS -->
-<div class="overlay" id="m-prod">
-  <div class="modal">
-    <div class="modal-h">
-      <h3 id="prod-modal-ttl">Add Product</h3>
-      <button class="modal-close" onclick="closeModal('m-prod')">✕</button>
-    </div>
-    <div class="modal-b">
-      <div class="f-grp">
-        <label class="f-lbl">Product Name</label>
-        <input type="text" id="prod-name" class="f-inp" placeholder="e.g. Premium Basmati Rice">
-      </div>
-      <div class="f-grp">
-        <label class="f-lbl">Category</label>
-        <select id="prod-category" class="f-sel"></select>
-      </div>
-      <div class="f-grp">
-        <label class="f-lbl">Price per Ton (₹)</label>
-        <input type="number" step="0.01" id="prod-price" class="f-inp" placeholder="45000">
-      </div>
-      <div class="f-grp">
-        <label class="f-lbl">Description</label>
-        <textarea id="prod-desc" class="f-area" rows="4" placeholder="Short description..."></textarea>
-      </div>
-    </div>
-    <div class="modal-h" style="border-top:2px solid var(--bdr2);justify-content:flex-end;gap:10px">
-      <button class="btn btn-gh" onclick="closeModal('m-prod')">Cancel</button>
-      <button class="btn btn-o" onclick="saveProd()">Save Product</button>
-    </div>
-  </div>
-</div>
+          if (res.status === 204) return { success: true };
+          return await res.json();
+        } catch (e) {
+          console.error("API Error:", e);
+          toast(`Error: ${e.message}`, "tr");
+          return null;
+        }
+      }
 
-<div class="toast-wrap" id="toasts"></div>
+      // ==================== HELPERS ====================
+      function toast(msg, type = "to") {
+        const el = document.createElement("div");
+        el.className = `toast t${type}`;
+        el.textContent = msg;
+        document.getElementById("toasts").appendChild(el);
+        setTimeout(() => el.remove(), 4000);
+      }
 
-<script>
-// ==================== CONFIG ====================
+      function fmtPrice(p) {
+        return p ? "₹" + Number(p).toLocaleString("en-IN") : "—";
+      }
+      function fmtDate(d) {
+        return d
+          ? new Date(d).toLocaleDateString("en-IN", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+            })
+          : "—";
+      }
 
-const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname.includes('127.0.0.1')) 
-                 ? 'http://localhost:8000' 
-                 : '';
-// ==================== API HELPER ====================
-async function req(endpoint, opts = {}) {
-  const url = API_BASE + endpoint;
-  try {
-    const res = await fetch(url, {
-      ...opts,
-      headers: {
-        'Content-Type': 'application/json',
-        ...(opts.headers || {})
-      },
-      signal: AbortSignal.timeout(15000)
-    });
+      // ==================== NAVIGATION ====================
+      function sw(id) {
+        document
+          .querySelectorAll(".view")
+          .forEach((v) => v.classList.remove("on"));
+        document
+          .querySelectorAll(".ni")
+          .forEach((n) => n.classList.remove("on"));
+        document.getElementById("v-" + id).classList.add("on");
+        document.getElementById("ni-" + id).classList.add("on");
+        document.getElementById("page-title").textContent =
+          {
+            dashboard: "Dashboard",
+            products: "Products",
+            categories: "Categories",
+            prices: "Price Control",
+            inquiries: "Inquiries",
+          }[id] || id;
 
-    if (!res.ok) {
-      const errorText = await res.text().catch(() => res.statusText);
-      throw new Error(`HTTP ${res.status}: ${errorText}`);
-    }
+        if (id === "dashboard") loadDash();
+        if (id === "products") loadProds();
+        if (id === "categories") loadCats();
+        if (id === "prices") loadPrices();
+        if (id === "inquiries") loadInqs();
+      }
 
-    if (res.status === 204) return { success: true };
-    return await res.json();
-  } catch (e) {
-    console.error('API Error:', e);
-    toast(`Error: ${e.message}`, 'tr');
-    return null;
-  }
-}
-
-// ==================== HELPERS ====================
-function toast(msg, type = 'to') {
-  const el = document.createElement('div');
-  el.className = `toast t${type}`;
-  el.textContent = msg;
-  document.getElementById('toasts').appendChild(el);
-  setTimeout(() => el.remove(), 4000);
-}
-
-function fmtPrice(p) { return p ? '₹' + Number(p).toLocaleString('en-IN') : '—'; }
-function fmtDate(d) { return d ? new Date(d).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'; }
-
-// ==================== NAVIGATION ====================
-function sw(id) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('on'));
-  document.querySelectorAll('.ni').forEach(n => n.classList.remove('on'));
-  document.getElementById('v-' + id).classList.add('on');
-  document.getElementById('ni-' + id).classList.add('on');
-  document.getElementById('page-title').textContent = {
-    dashboard: 'Dashboard',
-    products: 'Products',
-    categories: 'Categories',
-    prices: 'Price Control',
-    inquiries: 'Inquiries'
-  }[id] || id;
-
-  if (id === 'dashboard') loadDash();
-  if (id === 'products') loadProds();
-  if (id === 'categories') loadCats();
-  if (id === 'prices') loadPrices();
-  if (id === 'inquiries') loadInqs();
-}
-
-// ==================== DASHBOARD ====================
-async function loadDash() {
-  const stats = await req('/admin/stats/') || {};
-  document.getElementById('stat-row').innerHTML = `
-    <div class="sc"><div class="sc-lbl">Categories</div><div class="sc-num">${stats.total_categories||0}</div></div>
-    <div class="sc g"><div class="sc-lbl">Active Products</div><div class="sc-num">${stats.active_products||0}</div></div>
-    <div class="sc r"><div class="sc-lbl">Inactive</div><div class="sc-num">${stats.inactive_products||0}</div></div>
-    <div class="sc b"><div class="sc-lbl">Inquiries</div><div class="sc-num">${stats.total_inquiries||0}</div></div>
-    <div class="sc r"><div class="sc-lbl">Unread</div><div class="sc-num">${stats.unread_inquiries||0}</div></div>
+      // ==================== DASHBOARD ====================
+      async function loadDash() {
+        const stats = (await req("/admin/stats/")) || {};
+        document.getElementById("stat-row").innerHTML = `
+    <div class="sc"><div class="sc-lbl">Categories</div><div class="sc-num">${stats.total_categories || 0}</div></div>
+    <div class="sc g"><div class="sc-lbl">Active Products</div><div class="sc-num">${stats.active_products || 0}</div></div>
+    <div class="sc r"><div class="sc-lbl">Inactive</div><div class="sc-num">${stats.inactive_products || 0}</div></div>
+    <div class="sc b"><div class="sc-lbl">Inquiries</div><div class="sc-num">${stats.total_inquiries || 0}</div></div>
+    <div class="sc r"><div class="sc-lbl">Unread</div><div class="sc-num">${stats.unread_inquiries || 0}</div></div>
   `;
 
-  const prods = await req('/admin/products/') || [];
-  let html = '';
-  prods.slice(0, 8).forEach(p => {
-    html += `<div style="padding:12px 16px;border-bottom:1px solid var(--bdr2);display:flex;align-items:center;gap:12px">
-      <div style="flex:1"><strong>${p.name}</strong><br><small>${p.category_name || p.category?.name || ''}</small></div>
-      <input type="number" step="0.01" class="inp-s" id="qp${p.id}" value="${p.price_per_ton || ''}" style="width:120px">
+        const prods = (await req("/admin/products/")) || [];
+        let html = "";
+        prods.slice(0, 8).forEach((p) => {
+          html += `<div style="padding:12px 16px;border-bottom:1px solid var(--bdr2);display:flex;align-items:center;gap:12px">
+      <div style="flex:1"><strong>${p.name}</strong><br><small>${p.category_name || p.category?.name || ""}</small></div>
+      <input type="number" step="0.01" class="inp-s" id="qp${p.id}" value="${p.price_per_ton || ""}" style="width:120px">
       <button class="btn btn-o" onclick="quickPrice(${p.id})">Update</button>
     </div>`;
-  });
-  document.getElementById('qp-list').innerHTML = html || '<p style="padding:30px;color:var(--brown);text-align:center">No products found</p>';
+        });
+        document.getElementById("qp-list").innerHTML =
+          html ||
+          '<p style="padding:30px;color:var(--brown);text-align:center">No products found</p>';
 
-  const inqs = await req('/admin/inquiries/') || [];
-  document.getElementById('dash-inq').innerHTML = inqs.slice(0,5).map(i => `
-    <tr><td><strong>${i.name}</strong></td><td>${i.email||''}</td><td>${i.is_read?'✅':'🟠'}</td></tr>
-  `).join('');
-}
+        const inqs = (await req("/admin/inquiries/")) || [];
+        document.getElementById("dash-inq").innerHTML = inqs
+          .slice(0, 5)
+          .map(
+            (i) => `
+    <tr><td><strong>${i.name}</strong></td><td>${i.email || ""}</td><td>${i.is_read ? "✅" : "🟠"}</td></tr>
+  `,
+          )
+          .join("");
+      }
 
-async function quickPrice(id) {
-  const val = document.getElementById('qp' + id)?.value;
-  if (!val) return toast('Enter a price', 'tr');
+      async function quickPrice(id) {
+        const val = document.getElementById("qp" + id)?.value;
+        if (!val) return toast("Enter a price", "tr");
 
-  const result = await req(`/admin/products/${id}/price/`, {
-    method: 'PATCH',
-    body: JSON.stringify({ price_per_ton: parseFloat(val) })
-  });
+        const result = await req(`/admin/products/${id}/price/`, {
+          method: "PATCH",
+          body: JSON.stringify({ price_per_ton: parseFloat(val) }),
+        });
 
-  if (result?.success) {
-    toast('Price updated successfully!', 'tg');
-    loadDash();
-  }
-}
+        if (result?.success) {
+          toast("Price updated successfully!", "tg");
+          loadDash();
+        }
+      }
 
-// ==================== PRODUCTS ====================
-async function loadProds() {
-  const data = await req('/admin/products/') || [];
-  document.getElementById('prod-tbody').innerHTML = data.map(p => `
+      // ==================== PRODUCTS ====================
+      async function loadProds() {
+        const data = (await req("/admin/products/")) || [];
+        document.getElementById("prod-tbody").innerHTML = data
+          .map(
+            (p) => `
     <tr>
       <td>${p.name}</td>
-      <td>${p.category_name || p.category?.name || ''}</td>
+      <td>${p.category_name || p.category?.name || ""}</td>
       <td>${fmtPrice(p.price_per_ton)}</td>
-      <td><span style="color:${p.is_active ? '#22c55e' : '#ef4444'}">${p.is_active ? 'Active' : 'Inactive'}</span></td>
+      <td><span style="color:${p.is_active ? "#22c55e" : "#ef4444"}">${p.is_active ? "Active" : "Inactive"}</span></td>
       <td>
-        <button class="btn btn-gh btn-sm" onclick="toggleProductStatus(${p.id})">${p.is_active ? 'Deactivate' : 'Activate'}</button>
+        <button class="btn btn-gh btn-sm" onclick="toggleProductStatus(${p.id})">${p.is_active ? "Deactivate" : "Activate"}</button>
       </td>
     </tr>
-  `).join('');
-}
+  `,
+          )
+          .join("");
+      }
 
-async function toggleProductStatus(id) {
-  const res = await req(`/admin/products/${id}/toggle/`, { method: 'PATCH' });
-  if (res?.success) {
-    toast('Product status updated', 'tg');
-    loadProds();
-    if (document.querySelector('#v-dashboard').classList.contains('on')) loadDash();
-  }
-}
+      async function toggleProductStatus(id) {
+        const res = await req(`/admin/products/${id}/toggle/`, {
+          method: "PATCH",
+        });
+        if (res?.success) {
+          toast("Product status updated", "tg");
+          loadProds();
+          if (document.querySelector("#v-dashboard").classList.contains("on"))
+            loadDash();
+        }
+      }
 
-// ==================== CATEGORIES ====================
-async function loadCats() {
-  const data = await req('/admin/categories/') || [];
-  document.getElementById('cat-tbody').innerHTML = data.map(c => `
+      // ==================== CATEGORIES ====================
+      async function loadCats() {
+        const data = (await req("/admin/categories/")) || [];
+        document.getElementById("cat-tbody").innerHTML = data
+          .map(
+            (c) => `
     <tr>
-      <td>${c.icon || '📁'}</td>
+      <td>${c.icon || "📁"}</td>
       <td>${c.name}</td>
       <td>${c.slug}</td>
       <td>${c.product_count || 0}</td>
-      <td><span style="color:${c.is_active ? '#22c55e' : '#ef4444'}">${c.is_active ? 'Active' : 'Inactive'}</span></td>
+      <td><span style="color:${c.is_active ? "#22c55e" : "#ef4444"}">${c.is_active ? "Active" : "Inactive"}</span></td>
       <td><button class="btn btn-gh btn-sm">Edit</button></td>
     </tr>
-  `).join('');
-}
+  `,
+          )
+          .join("");
+      }
 
-// ==================== PRICE CONTROL ====================
-async function loadPrices() {
-  const prods = await req('/admin/products/') || [];
-  document.getElementById('price-tbody').innerHTML = prods.map(p => `
+      // ==================== PRICE CONTROL ====================
+      async function loadPrices() {
+        const prods = (await req("/admin/products/")) || [];
+        document.getElementById("price-tbody").innerHTML = prods
+          .map(
+            (p) => `
     <tr>
       <td>${p.name}</td>
-      <td>${p.category_name || ''}</td>
+      <td>${p.category_name || ""}</td>
       <td>${fmtPrice(p.price_per_ton)}</td>
       <td><button class="btn btn-o btn-sm" onclick="quickPrice(${p.id})">Quick Update</button></td>
     </tr>
-  `).join('');
-}
+  `,
+          )
+          .join("");
+      }
 
-// ==================== INQUIRIES ====================
-async function loadInqs() {
-  const data = await req('/admin/inquiries/') || [];
-  document.getElementById('inq-tbody').innerHTML = data.map(i => `
+      // ==================== INQUIRIES ====================
+      async function loadInqs() {
+        const data = (await req("/admin/inquiries/")) || [];
+        document.getElementById("inq-tbody").innerHTML = data
+          .map(
+            (i) => `
     <tr>
       <td>${i.name}</td>
       <td>${i.email}</td>
-      <td>${i.product_interest || '—'}</td>
+      <td>${i.product_interest || "—"}</td>
       <td>${fmtDate(i.created_at)}</td>
-      <td>${i.is_read ? '✅ Read' : '🟠 Unread'}</td>
+      <td>${i.is_read ? "✅ Read" : "🟠 Unread"}</td>
       <td>
-        ${!i.is_read ? `<button class="btn btn-g btn-sm" onclick="markInquiryRead(${i.id})">Mark Read</button>` : ''}
+        ${!i.is_read ? `<button class="btn btn-g btn-sm" onclick="markInquiryRead(${i.id})">Mark Read</button>` : ""}
         <button class="btn btn-r btn-sm" onclick="deleteInquiry(${i.id})">Delete</button>
       </td>
     </tr>
-  `).join('');
-}
+  `,
+          )
+          .join("");
+      }
 
-async function markInquiryRead(id) {
-  const res = await req(`/admin/inquiries/${id}/read/`, { method: 'PATCH' });
-  if (res?.success) {
-    toast('Inquiry marked as read', 'tg');
-    loadInqs();
-    if (document.getElementById('v-dashboard').classList.contains('on')) loadDash();
-  }
-}
+      async function markInquiryRead(id) {
+        const res = await req(`/admin/inquiries/${id}/read/`, {
+          method: "PATCH",
+        });
+        if (res?.success) {
+          toast("Inquiry marked as read", "tg");
+          loadInqs();
+          if (document.getElementById("v-dashboard").classList.contains("on"))
+            loadDash();
+        }
+      }
 
-async function deleteInquiry(id) {
-  if (!confirm('Delete this inquiry permanently?')) return;
-  const res = await req(`/admin/inquiries/${id}/delete/`, { method: 'DELETE' });
-  if (res?.success) {
-    toast('Inquiry deleted successfully', 'tg');
-    loadInqs();
-  }
-}
+      async function deleteInquiry(id) {
+        if (!confirm("Delete this inquiry permanently?")) return;
+        const res = await req(`/admin/inquiries/${id}/delete/`, {
+          method: "DELETE",
+        });
+        if (res?.success) {
+          toast("Inquiry deleted successfully", "tg");
+          loadInqs();
+        }
+      }
 
-// ==================== MODALS ====================
-async function openAddProd() {
-  document.getElementById('prod-modal-ttl').textContent = 'Add New Product';
-  document.getElementById('prod-name').value = '';
-  document.getElementById('prod-price').value = '';
-  document.getElementById('prod-desc').value = '';
+      // ==================== MODALS ====================
+      async function openAddProd() {
+        document.getElementById("prod-modal-ttl").textContent =
+          "Add New Product";
+        document.getElementById("prod-name").value = "";
+        document.getElementById("prod-price").value = "";
+        document.getElementById("prod-desc").value = "";
 
-  // Load categories for dropdown
-  const cats = await req('/admin/categories/') || [];
-  const select = document.getElementById('prod-category');
-  select.innerHTML = '<option value="">Select Category</option>' +
-    cats.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+        // Load categories for dropdown
+        const cats = (await req("/admin/categories/")) || [];
+        const select = document.getElementById("prod-category");
+        select.innerHTML =
+          '<option value="">Select Category</option>' +
+          cats
+            .map((c) => `<option value="${c.id}">${c.name}</option>`)
+            .join("");
 
-  document.getElementById('m-prod').classList.add('on');
-}
+        document.getElementById("m-prod").classList.add("on");
+      }
 
-async function saveProd() {
-  const name = document.getElementById('prod-name').value.trim();
-  const category_id = document.getElementById('prod-category').value;
-  const price = document.getElementById('prod-price').value;
+      async function saveProd() {
+        const name = document.getElementById("prod-name").value.trim();
+        const category_id = document.getElementById("prod-category").value;
+        const price = document.getElementById("prod-price").value;
 
-  if (!name || !category_id || !price) {
-    return toast('Please fill all required fields', 'tr');
-  }
+        if (!name || !category_id || !price) {
+          return toast("Please fill all required fields", "tr");
+        }
 
-  const data = {
-    name: name,
-    category: parseInt(category_id),
-    price_per_ton: parseFloat(price),
-    description: document.getElementById('prod-desc').value.trim()
-  };
+        const data = {
+          name: name,
+          category: parseInt(category_id),
+          price_per_ton: parseFloat(price),
+          description: document.getElementById("prod-desc").value.trim(),
+        };
 
-  const result = await req('/admin/products/', {
-    method: 'POST',
-    body: JSON.stringify(data)
-  });
+        const result = await req("/admin/products/", {
+          method: "POST",
+          body: JSON.stringify(data),
+        });
 
-  if (result) {
-    toast('Product added successfully!', 'tg');
-    closeModal('m-prod');
-    loadProds();
-    if (document.getElementById('v-dashboard').classList.contains('on')) loadDash();
-  }
-}
+        if (result) {
+          toast("Product added successfully!", "tg");
+          closeModal("m-prod");
+          loadProds();
+          if (document.getElementById("v-dashboard").classList.contains("on"))
+            loadDash();
+        }
+      }
 
-function openAddCat() {
-  toast('Add Category modal will be added in next update', 'to');
-}
+      function openAddCat() {
+        toast("Add Category modal will be added in next update", "to");
+      }
 
-function closeModal(id) {
-  document.getElementById(id).classList.remove('on');
-}
+      function closeModal(id) {
+        document.getElementById(id).classList.remove("on");
+      }
 
-// ==================== INIT ====================
-loadDash();
-</script>
-</body>
+      // ==================== INIT ====================
+      loadDash();
+    </script>
+  </body>
 </html>
