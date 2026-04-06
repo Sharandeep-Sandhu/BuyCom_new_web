@@ -9,18 +9,18 @@
       }
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
+      "source": "/static/(.*)",
+      "destination": "/static/$1"
     },
     {
-      "src": "/",
-      "dest": "/api/"
+      "source": "/",
+      "destination": "/api/"
     },
     {
-      "src": "/(.*)",
-      "dest": "BuyCom/wsgi.py"
+      "source": "/(.*)",
+      "destination": "/BuyCom/wsgi.py"
     }
   ]
 }
