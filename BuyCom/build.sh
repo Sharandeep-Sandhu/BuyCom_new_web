@@ -2,11 +2,7 @@
 
 echo "🚀 BUILD START"
 
-source myfirstproject/Scripts/activat
-
-BuyCom/pip install -r requirements.txt
-
-python manage.py collectstatic --noinput --clear
+pip install -r requirements.txt
+python manage.py collectstatic --noinput
 python manage.py migrate
-
 echo "✅ BUILD END"
