@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: django-app
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "daphne -b 0.0.0.0 -p $PORT BuyCom.asgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: BuyCom.settings
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: 3.12
