@@ -1,918 +1,2045 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Buy Commodity — Admin Panel</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet"/>
-<style>
-:root{
-  --bg:#fdf8ef;--bg2:#f7f0e0;--bg3:#f0e8d0;--panel:#fefbf5;
-  --sidebar:#f0e8d0;--orange:#e87020;--orange2:#c85a08;
-  --dark:#1c1409;--brown:#7a5c2e;--gray:#9a8878;
-  --bdr:rgba(122,92,46,.14);--bdr2:rgba(122,92,46,.08);
-  --r:6px;--fd:'Bebas Neue',sans-serif;
-  --fc:'Barlow Condensed',sans-serif;--fb:'Barlow',sans-serif;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden}
-body{background:var(--bg);color:var(--dark);font-family:var(--fb);font-size:14px;display:flex}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Buy Commodity — Admin Panel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ── DESIGN TOKENS (match customer site) ── */
+      :root {
+        --c1: #fdf8ef;
+        --c2: #f7f0e0;
+        --c3: #f0e8d0;
+        --c4: #e8dcc0;
+        --bg: #fdf8ef;
+        --bg2: #f7f0e0;
+        --bg3: #f0e8d0;
+        --panel: #fefbf5;
+        --sidebar: #f0e8d0;
+        --orange: #e87020;
+        --orange2: #c85a08;
+        --orange3: #f59b3a;
+        --dark: #1c1409;
+        --dark2: #2e200c;
+        --brown: #7a5c2e;
+        --brown2: #a07840;
+        --gray: #9a8878;
+        --bdr: rgba(122, 92, 46, 0.14);
+        --bdr2: rgba(122, 92, 46, 0.08);
+        --r: 6px;
+        --fd: "Bebas Neue", sans-serif;
+        --fc: "Barlow Condensed", sans-serif;
+        --fb: "Barlow", sans-serif;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+      }
+      body {
+        background: var(--bg);
+        color: var(--dark);
+        font-family: var(--fb);
+        font-size: 14px;
+        display: flex;
+      }
 
-/* ── SIDEBAR ── */
-.sb{width:240px;background:var(--sidebar);border-right:2px solid var(--bdr);display:flex;flex-direction:column;flex-shrink:0;height:100vh;overflow-y:auto}
-.sb-logo{padding:20px 18px 16px;border-bottom:2px solid var(--bdr)}
-.sb-logo-wrap{display:flex;align-items:center;gap:10px}
-.hex{width:38px;height:38px;background:var(--orange);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:17px;color:#fff}
-.sb-brand{font-family:var(--fc);font-size:1.25rem;font-weight:700;color:var(--dark)}
-.sb-badge{background:rgba(232,112,32,.14);border:1px solid rgba(232,112,32,.28);color:var(--orange);font-size:.62rem;padding:2px 9px;border-radius:12px;font-family:var(--fc);font-weight:700;margin-top:6px;display:inline-block}
-.nav-section{padding:14px 0}
-.nav-lbl{padding:0 14px 7px;font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--brown);font-weight:700}
-.ni{display:flex;align-items:center;gap:9px;padding:11px 14px;cursor:pointer;transition:.15s;border-left:3px solid transparent;color:var(--brown);font-size:.9rem;font-weight:600}
-.ni:hover{background:var(--bg3);color:var(--dark)}
-.ni.on{background:rgba(232,112,32,.1);color:var(--orange);border-left-color:var(--orange)}
-.ni-icon{font-size:1.1rem;width:24px;text-align:center}
-.unread-pill{background:var(--orange);color:#fff;font-size:.6rem;padding:2px 6px;border-radius:10px;margin-left:auto;font-weight:700}
+      /* ── SIDEBAR ── */
+      .sb {
+        width: 260px;
+        background: var(--sidebar);
+        border-right: 2px solid var(--bdr);
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        height: 100vh;
+        overflow-y: auto;
+      }
+      .sb-logo {
+        padding: 20px 20px 16px;
+        border-bottom: 2px solid var(--bdr);
+      }
+      .sb-logo-wrap {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .hex {
+        width: 42px;
+        height: 42px;
+        background: var(--orange);
+        clip-path: polygon(
+          50% 0%,
+          100% 25%,
+          100% 75%,
+          50% 100%,
+          0% 75%,
+          0% 25%
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--fd);
+        font-size: 18px;
+        color: #fff;
+      }
+      .sb-brand {
+        font-family: var(--fc);
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: var(--dark);
+      }
+      .nav-section {
+        padding: 12px 0;
+      }
+      .nav-lbl {
+        padding: 0 20px 8px;
+        font-size: 0.65rem;
+        letter-spacing: 1.8px;
+        text-transform: uppercase;
+        color: var(--brown);
+        font-weight: 700;
+      }
+      .ni {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 20px;
+        cursor: pointer;
+        transition: 0.2s;
+        color: var(--brown);
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+      .ni:hover {
+        background: var(--bg3);
+        color: var(--dark);
+      }
+      .ni.on {
+        background: rgba(232, 112, 32, 0.12);
+        color: var(--orange);
+        border-left: 4px solid var(--orange);
+      }
+      .ni-icon {
+        font-size: 1.1rem;
+        width: 24px;
+        text-align: center;
+      }
+      #product-types-submenu {
+        margin-left: 35px;
+        padding: 4px 0;
+        font-size: 0.85rem;
+        display: none;
+      }
+      .sub-item {
+        padding: 7px 20px;
+        color: var(--brown);
+        cursor: pointer;
+        border-radius: 3px;
+      }
+      .sub-item:hover {
+        background: var(--bg3);
+        color: var(--dark);
+      }
 
-/* ── MAIN ── */
-.main{flex:1;overflow-y:auto;height:100vh;display:flex;flex-direction:column}
-.topbar{padding:13px 26px;border-bottom:2px solid var(--bdr2);display:flex;align-items:center;justify-content:space-between;background:var(--bg2);flex-shrink:0}
-.topbar h1{font-family:var(--fd);font-size:1.8rem;letter-spacing:1px;color:var(--dark)}
-.topbar-r{display:flex;align-items:center;gap:10px}
-.live-dot{display:flex;align-items:center;gap:6px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);padding:5px 12px;border-radius:4px;font-size:.76rem;color:var(--brown)}
-.dot{width:7px;height:7px;border-radius:50%;background:#22c55e;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.content{padding:26px;flex:1;overflow-y:auto}
+      /* ── MAIN ── */
+      .main {
+        flex: 1;
+        overflow-y: auto;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      .topbar {
+        padding: 14px 30px;
+        border-bottom: 2px solid var(--bdr2);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--bg2);
+        flex-shrink: 0;
+      }
+      .topbar h1 {
+        font-family: var(--fd);
+        font-size: 2rem;
+        letter-spacing: 1px;
+        color: var(--dark);
+      }
+      .topbar-r {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .content {
+        padding: 30px;
+        flex: 1;
+        overflow-y: auto;
+      }
 
-/* ── VIEWS ── */
-.view{display:none}.view.on{display:block}
+      /* ── VIEWS ── */
+      .view {
+        display: none;
+      }
+      .view.on {
+        display: block;
+      }
 
-/* ── STAT CARDS ── */
-.stat-row{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:26px}
-.sc{background:var(--panel);border:2px solid var(--bdr);border-radius:var(--r);padding:20px 18px;position:relative;box-shadow:0 4px 20px rgba(122,92,46,.07)}
-.sc::after{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--orange)}
-.sc.g::after{background:#22c55e}.sc.r::after{background:#ef4444}.sc.b::after{background:#3b82f6}
-.sc-lbl{font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--brown);margin-bottom:6px;font-weight:700}
-.sc-num{font-family:var(--fd);font-size:2.6rem;color:var(--dark);line-height:1}
+      /* ── FILTER ROW ── */
+      .filter-row {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 20px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .search-input {
+        background: var(--bg2);
+        border: 2px solid var(--bdr);
+        color: var(--dark);
+        padding: 8px 13px;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        outline: none;
+        width: 280px;
+        font-family: var(--fb);
+      }
+      .search-input:focus {
+        border-color: var(--orange);
+      }
+      .search-input::placeholder {
+        color: var(--gray);
+      }
 
-/* ── CARDS ── */
-.card{background:var(--panel);border:2px solid var(--bdr);border-radius:var(--r);overflow:hidden;box-shadow:0 4px 20px rgba(122,92,46,.07)}
-.card-head{padding:16px 20px;border-bottom:2px solid var(--bdr2);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.card-title{font-family:var(--fc);font-size:1.1rem;font-weight:700;color:var(--dark)}
+      /* ── STATS ── */
+      .stat-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 18px;
+        margin-bottom: 30px;
+      }
+      .sc {
+        background: var(--panel);
+        border: 2px solid var(--bdr);
+        border-radius: var(--r);
+        padding: 22px;
+        position: relative;
+        box-shadow: 0 4px 20px rgba(122, 92, 46, 0.07);
+      }
+      .sc::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: var(--orange);
+        border-radius: var(--r) var(--r) 0 0;
+      }
+      .sc-lbl {
+        font-size: 0.72rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--brown);
+        margin-bottom: 8px;
+        font-weight: 700;
+      }
+      .sc-num {
+        font-family: var(--fd);
+        font-size: 2.8rem;
+        color: var(--dark);
+        line-height: 1;
+      }
 
-/* ── TABLE ── */
-.tbl-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse}
-th{font-family:var(--fc);font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--brown);padding:12px 16px;text-align:left;border-bottom:2px solid var(--bdr2)}
-td{padding:10px 16px;border-bottom:1px solid var(--bdr2);font-size:.85rem;color:var(--dark);vertical-align:middle}
-tr:hover td{background:var(--bg3)}
+      /* ── CARD ── */
+      .card {
+        background: var(--panel);
+        border: 2px solid var(--bdr);
+        border-radius: var(--r);
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(122, 92, 46, 0.07);
+      }
+      .card-head {
+        padding: 16px 24px;
+        border-bottom: 2px solid var(--bdr2);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .card-title {
+        font-family: var(--fc);
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--dark);
+        letter-spacing: 0.5px;
+      }
 
-/* ── INPUTS ── */
-.inp-s,.sel-s{background:var(--bg2);border:2px solid var(--bdr);color:var(--dark);padding:8px 12px;border-radius:4px;font-size:.85rem;outline:none;font-family:var(--fb)}
-.inp-s:focus,.sel-s:focus{border-color:var(--orange)}
+      /* ── TABLE ── */
+      .tbl-wrap {
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th {
+        font-family: var(--fc);
+        font-size: 0.68rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--brown);
+        padding: 13px 18px;
+        text-align: left;
+        border-bottom: 2px solid var(--bdr2);
+        cursor: pointer;
+        user-select: none;
+        white-space: nowrap;
+      }
+      th:hover {
+        color: var(--orange);
+      }
+      td {
+        padding: 11px 18px;
+        border-bottom: 1px solid var(--bdr2);
+        font-size: 0.87rem;
+        color: var(--dark);
+        vertical-align: middle;
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      tr:hover td {
+        background: var(--bg3);
+      }
 
-/* ── BUTTONS ── */
-.btn{padding:7px 16px;border-radius:4px;border:none;font-family:var(--fc);font-size:.85rem;font-weight:700;cursor:pointer;transition:.15s;letter-spacing:.5px}
-.btn-o{background:var(--orange);color:#fff}.btn-o:hover{background:var(--orange2)}
-.btn-gh{background:var(--bg3);color:var(--brown);border:2px solid var(--bdr)}.btn-gh:hover{background:var(--bg2)}
-.btn-r{background:rgba(239,68,68,.1);color:#ef4444;border:2px solid rgba(239,68,68,.3)}.btn-r:hover{background:rgba(239,68,68,.2)}
-.btn-g{background:rgba(34,197,94,.1);color:#22c55e;border:2px solid rgba(34,197,94,.3)}.btn-g:hover{background:rgba(34,197,94,.2)}
-.btn-sm{padding:5px 10px;font-size:.76rem}
-.btn:disabled{opacity:.55;cursor:not-allowed}
+      /* ── THUMBNAIL in table ── */
+      .tbl-thumb {
+        width: 52px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 4px;
+        display: block;
+        background: var(--c3);
+      }
+      .tbl-thumb-ph {
+        width: 52px;
+        height: 40px;
+        border-radius: 4px;
+        background: var(--c3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        color: var(--gray);
+      }
 
-/* ── MODALS ── */
-.overlay{position:fixed;inset:0;background:rgba(28,20,9,.78);z-index:300;display:none;align-items:center;justify-content:center;padding:16px}
-.overlay.on{display:flex}
-.modal{background:var(--panel);border:2px solid var(--bdr);border-radius:var(--r);width:100%;max-width:580px;max-height:94vh;display:flex;flex-direction:column}
-.modal-h{padding:18px 24px;border-bottom:2px solid var(--bdr2);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.modal-h h3{font-family:var(--fd);font-size:1.6rem;color:var(--dark)}
-.modal-close{background:none;border:none;color:var(--brown);font-size:1.4rem;cursor:pointer;line-height:1;padding:2px 6px}
-.modal-b{padding:24px;overflow-y:auto;flex:1}
-.modal-f{padding:14px 24px;border-top:2px solid var(--bdr2);display:flex;justify-content:flex-end;gap:10px;flex-shrink:0}
+      /* ── BUTTONS ── */
+      .btn {
+        padding: 8px 18px;
+        border-radius: 4px;
+        border: none;
+        font-family: var(--fc);
+        font-size: 0.85rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.15s;
+        letter-spacing: 0.5px;
+      }
+      .btn-o {
+        background: var(--orange);
+        color: #fff;
+      }
+      .btn-o:hover {
+        background: var(--orange2);
+      }
+      .btn-gh {
+        background: var(--bg3);
+        color: var(--brown);
+        border: 2px solid var(--bdr);
+      }
+      .btn-gh:hover {
+        background: var(--bg2);
+        color: var(--dark);
+      }
+      .btn-r {
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+        border: 2px solid rgba(239, 68, 68, 0.3);
+      }
+      .btn-r:hover {
+        background: rgba(239, 68, 68, 0.2);
+      }
+      .btn-g {
+        background: rgba(34, 197, 94, 0.1);
+        color: #22c55e;
+        border: 2px solid rgba(34, 197, 94, 0.3);
+      }
+      .btn-g:hover {
+        background: rgba(34, 197, 94, 0.2);
+      }
+      .btn-sm {
+        padding: 5px 10px;
+        font-size: 0.76rem;
+      }
 
-/* ── FORM ── */
-.f-grp{margin-bottom:16px}
-.f-lbl{display:block;font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--brown);font-weight:700;margin-bottom:6px}
-.f-inp,.f-sel,.f-area{width:100%;background:var(--bg2);border:2px solid var(--bdr);color:var(--dark);padding:10px 13px;border-radius:4px;outline:none;font-family:var(--fb);font-size:.9rem;transition:.15s}
-.f-inp:focus,.f-sel:focus,.f-area:focus{border-color:var(--orange);background:var(--panel)}
-.f-area{resize:vertical;min-height:80px}
-.f-row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+      /* ── FORM ELEMENTS (fixes missing CSS used in modals) ── */
+      .f-row2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 0;
+      }
+      .f-grp {
+        margin-bottom: 16px;
+      }
+      .f-lbl {
+        display: block;
+        font-family: var(--fc);
+        font-size: 0.68rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--brown2);
+        font-weight: 700;
+        margin-bottom: 6px;
+      }
+      .f-inp,
+      .f-sel {
+        width: 100%;
+        background: var(--bg2);
+        border: 1.5px solid var(--bdr);
+        color: var(--dark);
+        padding: 10px 13px;
+        border-radius: var(--r);
+        font-family: var(--fb);
+        font-size: 0.9rem;
+        outline: none;
+        transition: 0.2s;
+      }
+      .f-inp:focus,
+      .f-sel:focus {
+        border-color: var(--orange);
+        background: var(--c1);
+        box-shadow: 0 0 0 3px rgba(232, 112, 32, 0.07);
+      }
+      .f-inp::placeholder {
+        color: var(--gray);
+      }
+      .f-area {
+        width: 100%;
+        background: var(--bg2);
+        border: 1.5px solid var(--bdr);
+        color: var(--dark);
+        padding: 10px 13px;
+        border-radius: var(--r);
+        font-family: var(--fb);
+        font-size: 0.9rem;
+        outline: none;
+        transition: 0.2s;
+        resize: vertical;
+        min-height: 90px;
+      }
+      .f-area:focus {
+        border-color: var(--orange);
+        background: var(--c1);
+        box-shadow: 0 0 0 3px rgba(232, 112, 32, 0.07);
+      }
+      /* inline inputs (rate update, search) */
+      .inp-s,
+      .sel-s {
+        background: var(--bg2);
+        border: 1.5px solid var(--bdr);
+        color: var(--dark);
+        padding: 7px 11px;
+        border-radius: 4px;
+        font-size: 0.84rem;
+        outline: none;
+        font-family: var(--fb);
+      }
+      .inp-s:focus,
+      .sel-s:focus {
+        border-color: var(--orange);
+      }
 
-/* ── IMAGE UPLOAD ── */
-.img-drop{border:2px dashed var(--bdr);border-radius:var(--r);padding:20px;text-align:center;cursor:pointer;transition:.2s;background:var(--bg2);position:relative}
-.img-drop:hover,.img-drop.drag{border-color:var(--orange);background:rgba(232,112,32,.04)}
-.img-drop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.img-drop .img-ico{font-size:2rem;margin-bottom:6px}
-.img-drop p{font-size:.82rem;color:var(--brown);margin-bottom:4px}
-.img-drop small{font-size:.72rem;color:var(--gray)}
-.img-preview{display:none;margin-top:12px;position:relative;width:100px;height:100px}
-.img-preview img{width:100px;height:100px;object-fit:cover;border-radius:4px;border:2px solid var(--bdr)}
-.img-preview .remove-img{position:absolute;top:-6px;right:-6px;background:#ef4444;color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
-.prod-thumb{width:44px;height:44px;object-fit:cover;border-radius:4px;border:1px solid var(--bdr);vertical-align:middle}
-.prod-no-img{width:44px;height:44px;background:var(--bg3);border-radius:4px;border:1px solid var(--bdr);display:inline-flex;align-items:center;justify-content:center;font-size:1.2rem;vertical-align:middle}
+      /* ── IMAGE UPLOAD WIDGET ── */
+      .img-upload-wrap {
+        border: 2px dashed var(--bdr);
+        border-radius: var(--r);
+        padding: 16px;
+        text-align: center;
+        cursor: pointer;
+        background: var(--bg2);
+        transition: 0.2s;
+      }
+      .img-upload-wrap:hover {
+        border-color: var(--orange);
+        background: var(--c1);
+      }
+      .img-upload-preview {
+        max-width: 100%;
+        max-height: 140px;
+        border-radius: 4px;
+        margin-top: 10px;
+        display: none;
+      }
+      .img-upload-label {
+        font-size: 0.82rem;
+        color: var(--brown);
+      }
+      .img-upload-label strong {
+        color: var(--orange);
+      }
 
-/* ── TOAST ── */
-.toast-wrap{position:fixed;bottom:24px;right:24px;z-index:500;display:flex;flex-direction:column;gap:8px;max-width:340px}
-.toast{background:var(--panel);border:2px solid var(--bdr);border-radius:var(--r);padding:12px 18px;box-shadow:0 6px 25px rgba(122,92,46,.15);animation:toastIn .25s ease;font-size:.88rem}
-@keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.tg{border-left:4px solid #22c55e}.tr{border-left:4px solid #ef4444}.to{border-left:4px solid var(--orange)}
+      /* ── OVERLAY / MODAL ── */
+      .overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(28, 20, 9, 0.78);
+        z-index: 300;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+      }
+      .overlay.on {
+        display: flex;
+      }
+      .modal {
+        background: var(--panel);
+        border: 2px solid var(--bdr);
+        border-radius: var(--r);
+        width: 100%;
+        max-width: 600px;
+        max-height: 94vh;
+        display: flex;
+        flex-direction: column;
+      }
+      .modal-h {
+        padding: 16px 24px;
+        border-bottom: 2px solid var(--bdr2);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-shrink: 0;
+      }
+      .modal-h h3 {
+        font-family: var(--fd);
+        font-size: 1.6rem;
+        color: var(--dark);
+        letter-spacing: 1px;
+      }
+      .modal-close {
+        background: none;
+        border: none;
+        color: var(--brown);
+        font-size: 1.3rem;
+        cursor: pointer;
+        line-height: 1;
+        padding: 2px 6px;
+      }
+      .modal-close:hover {
+        color: var(--dark);
+      }
+      .modal-b {
+        padding: 22px 24px;
+        overflow-y: auto;
+        flex: 1;
+      }
+      .modal-f {
+        padding: 14px 24px;
+        border-top: 2px solid var(--bdr2);
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        flex-shrink: 0;
+      }
 
-/* ── MISC ── */
-.badge-a{color:#22c55e;font-weight:600}.badge-i{color:#ef4444;font-weight:600}
-.empty-state{padding:40px;text-align:center;color:var(--brown);font-size:.9rem}
-.spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--bdr);border-top-color:var(--orange);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px}
-@keyframes spin{to{transform:rotate(360deg)}}
-.act-btns{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
-</style>
-</head>
-<body>
+      /* ── TOAST ── */
+      .toast-wrap {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        max-width: 340px;
+      }
+      .toast {
+        background: var(--panel);
+        border: 2px solid var(--bdr);
+        border-radius: var(--r);
+        padding: 12px 20px;
+        box-shadow: 0 6px 25px rgba(122, 92, 46, 0.15);
+        animation: toastIn 0.25s ease;
+        font-size: 0.88rem;
+      }
+      @keyframes toastIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .tg {
+        border-left: 4px solid #22c55e;
+      }
+      .tr {
+        border-left: 4px solid #ef4444;
+      }
+      .to {
+        border-left: 4px solid var(--orange);
+      }
 
-<!-- ═══ SIDEBAR ═══ -->
-<aside class="sb">
-  <div class="sb-logo">
-    <div class="sb-logo-wrap">
-      <div class="hex">BC</div>
-      <div class="sb-brand">Buy Commodity</div>
-    </div>
-    <div class="sb-badge">ADMIN PANEL</div>
-  </div>
-  <div class="nav-section">
-    <div class="nav-lbl">Dashboard</div>
-    <div class="ni on" onclick="sw('dashboard')" id="ni-dashboard"><span class="ni-icon">📊</span>Overview</div>
-  </div>
-  <div class="nav-section">
-    <div class="nav-lbl">Catalogue</div>
-    <div class="ni" onclick="sw('products')"   id="ni-products">  <span class="ni-icon">📦</span>Products</div>
-    <div class="ni" onclick="sw('categories')" id="ni-categories"><span class="ni-icon">🗂️</span>Categories</div>
-    <div class="ni" onclick="sw('prices')"     id="ni-prices">    <span class="ni-icon">💰</span>Price Control</div>
-  </div>
-  <div class="nav-section">
-    <div class="nav-lbl">Customers</div>
-    <div class="ni" onclick="sw('inquiries')" id="ni-inquiries">
-      <span class="ni-icon">✉️</span>Inquiries
-      <span class="unread-pill" id="unread-pill" style="display:none"></span>
-    </div>
-  </div>
-  <div style="margin-top:auto;padding:18px;font-size:.8rem;color:var(--brown);border-top:2px solid var(--bdr)">
-    <p>Buy Commodity Solutions<br>Admin Panel v2.2</p>
-  </div>
-</aside>
-
-<!-- ═══ MAIN ═══ -->
-<div class="main">
-  <div class="topbar">
-    <h1 id="page-title">Dashboard</h1>
-    <div class="topbar-r">
-      <div class="live-dot"><div class="dot"></div>API Connected</div>
-      <a href="/" target="_blank" class="btn btn-gh btn-sm">View Customer Site</a>
-    </div>
-  </div>
-
-  <div class="content">
-
-    <!-- ── DASHBOARD ── -->
-    <div class="view on" id="v-dashboard">
-      <div class="stat-row" id="stat-row">
-        <div class="sc">   <div class="sc-lbl">Categories</div>    <div class="sc-num"><span class="spinner"></span></div></div>
-        <div class="sc g"> <div class="sc-lbl">Active Products</div><div class="sc-num">—</div></div>
-        <div class="sc r"> <div class="sc-lbl">Inactive</div>       <div class="sc-num">—</div></div>
-        <div class="sc b"> <div class="sc-lbl">Inquiries</div>      <div class="sc-num">—</div></div>
-        <div class="sc r"> <div class="sc-lbl">Unread</div>         <div class="sc-num">—</div></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
-        <div class="card">
-          <div class="card-head"><div class="card-title">Quick Price Update</div></div>
-          <div id="qp-list"><div class="empty-state"><span class="spinner"></span>Loading…</div></div>
-        </div>
-        <div class="card">
-          <div class="card-head"><div class="card-title">Recent Inquiries</div></div>
-          <table><tbody id="dash-inq"><tr><td colspan="3" class="empty-state"><span class="spinner"></span></td></tr></tbody></table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── PRODUCTS ── -->
-    <div class="view" id="v-products">
-      <div class="card">
-        <div class="card-head">
-          <div class="card-title">All Products</div>
-          <button class="btn btn-o" onclick="openAddProd()">+ Add Product</button>
-        </div>
-        <div class="tbl-wrap">
-          <table>
-            <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price / Ton</th><th>Price Visible</th><th>Status</th><th>Actions</th></tr></thead>
-            <tbody id="prod-tbody"><tr><td colspan="7" class="empty-state"><span class="spinner"></span>Loading…</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── CATEGORIES ── -->
-    <div class="view" id="v-categories">
-      <div class="card">
-        <div class="card-head">
-          <div class="card-title">Categories</div>
-          <button class="btn btn-o" onclick="openAddCat()">+ Add Category</button>
-        </div>
-        <div class="tbl-wrap">
-          <table>
-            <thead><tr><th>Icon</th><th>Name</th><th>Slug</th><th>Products</th><th>Status</th><th>Actions</th></tr></thead>
-            <tbody id="cat-tbody"><tr><td colspan="6" class="empty-state"><span class="spinner"></span>Loading…</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── PRICE CONTROL ── -->
-    <div class="view" id="v-prices">
-      <div class="card">
-        <div class="card-head"><div class="card-title">Price Control — All Products</div></div>
-        <div class="tbl-wrap">
-          <table>
-            <thead><tr><th>Product</th><th>Category</th><th>Current Price</th><th>New Price (₹)</th><th>Action</th></tr></thead>
-            <tbody id="price-tbody"><tr><td colspan="5" class="empty-state"><span class="spinner"></span>Loading…</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── INQUIRIES ── -->
-    <div class="view" id="v-inquiries">
-      <div class="card">
-        <div class="card-head">
-          <div class="card-title">Customer Inquiries</div>
-          <select class="sel-s" onchange="filterInqs(this.value)" style="font-size:.8rem;padding:6px 10px">
-            <option value="">All</option>
-            <option value="unread">Unread only</option>
-            <option value="read">Read only</option>
-          </select>
-        </div>
-        <div class="tbl-wrap">
-          <table>
-            <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Product Interest</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
-            <tbody id="inq-tbody"><tr><td colspan="7" class="empty-state"><span class="spinner"></span>Loading…</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-  </div><!-- /content -->
-</div><!-- /main -->
-
-<!-- ═══ MODAL: ADD / EDIT PRODUCT ═══ -->
-<div class="overlay" id="m-prod">
-  <div class="modal">
-    <div class="modal-h">
-      <h3 id="prod-modal-ttl">Add Product</h3>
-      <button class="modal-close" onclick="closeModal('m-prod')">✕</button>
-    </div>
-    <div class="modal-b">
-      <input type="hidden" id="prod-id">
-
-      <div class="f-row2">
-        <div class="f-grp" style="grid-column:1/-1">
-          <label class="f-lbl">Product Name *</label>
-          <input type="text" id="prod-name" class="f-inp" placeholder="e.g. HR Coil">
-        </div>
-      </div>
-
-      <div class="f-row2">
-        <div class="f-grp">
-          <label class="f-lbl">Category *</label>
-          <select id="prod-category" class="f-sel"></select>
-        </div>
-        <div class="f-grp">
-          <label class="f-lbl">Price per Ton (₹)</label>
-          <input type="number" step="0.01" id="prod-price" class="f-inp" placeholder="45000">
-        </div>
-      </div>
-
-      <div class="f-grp">
-        <label class="f-lbl">Description</label>
-        <textarea id="prod-desc" class="f-area" rows="3" placeholder="Short description…"></textarea>
-      </div>
-
-      <!-- Image Upload -->
-      <div class="f-grp">
-        <label class="f-lbl">Product Image</label>
-        <div class="img-drop" id="img-drop-zone">
-          <input type="file" id="prod-image" accept="image/jpeg,image/png,image/webp,image/gif"
-                 onchange="onImageSelect(this)">
-          <div class="img-ico">🖼️</div>
-          <p>Click or drag & drop an image here</p>
-          <small>JPEG, PNG, WebP — max 5 MB</small>
-        </div>
-        <div class="img-preview" id="img-preview-wrap">
-          <img id="img-preview" src="" alt="Preview">
-          <button class="remove-img" onclick="removeImage()" title="Remove image">✕</button>
-        </div>
-        <!-- Shows current image when editing -->
-        <div id="current-img-wrap" style="display:none;margin-top:10px">
-          <label class="f-lbl" style="margin-bottom:4px">Current Image</label>
-          <div style="display:flex;align-items:center;gap:10px">
-            <img id="current-img" src="" alt="Current" style="width:60px;height:60px;object-fit:cover;border-radius:4px;border:1px solid var(--bdr)">
-            <span style="font-size:.8rem;color:var(--brown)">Upload a new image above to replace it</span>
+      /* ── MISC ── */
+      .badge-a {
+        color: #22c55e;
+        font-weight: 600;
+        font-size: 0.82rem;
+      }
+      .badge-i {
+        color: #ef4444;
+        font-weight: 600;
+        font-size: 0.82rem;
+      }
+      .empty-state {
+        padding: 50px;
+        text-align: center;
+        color: var(--brown);
+        font-size: 0.9rem;
+      }
+      .spinner {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid var(--bdr);
+        border-top-color: var(--orange);
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+        vertical-align: middle;
+        margin-right: 6px;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .act-btns {
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .rate-tag {
+        font-family: var(--fc);
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--orange2);
+      }
+      .diff-tag {
+        font-size: 0.78rem;
+        color: var(--brown);
+        background: var(--bg3);
+        padding: 2px 7px;
+        border-radius: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ══════════════ SIDEBAR ══════════════ -->
+    <aside class="sb">
+      <div class="sb-logo">
+        <div class="sb-logo-wrap">
+          <div class="hex">BC</div>
+          <div>
+            <div class="sb-brand">Buy Commodity</div>
+            <div
+              style="
+                font-size: 0.72rem;
+                color: var(--orange);
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                font-weight: 700;
+              "
+            >
+              Admin Panel
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="f-row2">
-        <div class="f-grp">
-          <label class="f-lbl">Status</label>
-          <select id="prod-active" class="f-sel">
-            <option value="true">Active</option>
-            <option value="false">Inactive</option>
-          </select>
+      <div class="nav-section">
+        <div class="nav-lbl">Main</div>
+        <div class="ni on" onclick="sw('dashboard')" id="ni-dashboard">
+          <span class="ni-icon">📊</span> Dashboard
         </div>
-        <div class="f-grp">
-          <label class="f-lbl">Price Visible</label>
-          <select id="prod-price-visible" class="f-sel">
-            <option value="true">Yes — show on site</option>
-            <option value="false">No — hide (on request)</option>
-          </select>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-lbl">Catalogue</div>
+        <div class="ni" onclick="sw('categories')" id="ni-categories">
+          <span class="ni-icon">🗂️</span> Categories
+        </div>
+        <div class="ni" onclick="sw('types')" id="ni-types">
+          <span class="ni-icon">📦</span> Product Types
+        </div>
+        <div id="product-types-submenu"></div>
+        <div class="ni" onclick="sw('variants')" id="ni-variants">
+          <span class="ni-icon">📏</span> Variants &amp; Rates
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-lbl">Customers</div>
+        <div class="ni" onclick="sw('inquiries')" id="ni-inquiries">
+          <span class="ni-icon">✉️</span> Inquiries
+          <span
+            id="unread-badge"
+            style="
+              margin-left: auto;
+              background: var(--orange);
+              color: #fff;
+              font-size: 0.65rem;
+              padding: 2px 7px;
+              border-radius: 20px;
+              display: none;
+              font-family: var(--fc);
+              font-weight: 700;
+            "
+          ></span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ══════════════ MAIN ══════════════ -->
+    <div class="main">
+      <div class="topbar">
+        <h1 id="page-title">Dashboard</h1>
+        <div class="topbar-r">
+          <input
+            type="text"
+            id="global-search"
+            class="search-input"
+            placeholder="Search current page… (Enter)"
+            onkeyup="if (event.key === 'Enter') handleGlobalSearch();"
+          />
+          <a href="/" target="_blank" class="btn btn-gh btn-sm"
+            >↗ Customer Site</a
+          >
+        </div>
+      </div>
+
+      <div class="content">
+        <!-- ── DASHBOARD ── -->
+        <div class="view on" id="v-dashboard">
+          <div class="stat-row" id="stat-row"></div>
+          <div class="card">
+            <div class="card-head">
+              <div class="card-title">📤 Quick Excel Rate Upload</div>
+              <small style="color: var(--brown); font-size: 0.8rem"
+                >Supports Pipe Rate.xlsx and Ex_mandi.xlsx</small
+              >
+            </div>
+            <div style="padding: 50px; text-align: center">
+              <input
+                type="file"
+                id="excel-upload"
+                accept=".xlsx"
+                style="display: none"
+                onchange="handleExcelUpload(this)"
+              />
+              <button
+                class="btn btn-o"
+                style="font-size: 1rem; padding: 12px 32px"
+                onclick="document.getElementById('excel-upload').click()"
+              >
+                📤 Upload Mandi / Pipe Excel
+              </button>
+              <p
+                style="
+                  margin-top: 12px;
+                  font-size: 0.82rem;
+                  color: var(--brown);
+                "
+              >
+                Accepted: .xlsx only. Rates update automatically on upload.
+              </p>
+              <div
+                id="upload-result"
+                style="margin-top: 20px; font-size: 0.95rem"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── CATEGORIES ── -->
+        <div class="view" id="v-categories">
+          <div class="filter-row">
+            <input
+              type="text"
+              id="categories-search"
+              class="search-input"
+              placeholder="Search categories…"
+              oninput="loadCategories()"
+              style="width: 320px"
+            />
+          </div>
+          <div class="card">
+            <div class="card-head">
+              <div class="card-title">Categories</div>
+              <button class="btn btn-o" onclick="openAddCat()">
+                + Add Category
+              </button>
+            </div>
+            <div class="tbl-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width: 70px">Image</th>
+                    <th onclick="sortTable(1, 'cat-tbody')">Name ↕</th>
+                    <th onclick="sortTable(2, 'cat-tbody')">Slug ↕</th>
+                    <th>Icon</th>
+                    <th onclick="sortTable(4, 'cat-tbody')">Status ↕</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="cat-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── PRODUCT TYPES ── -->
+        <div class="view" id="v-types">
+          <div class="filter-row">
+            <select
+              id="type-category-filter"
+              class="sel-s"
+              onchange="loadTypes()"
+              style="min-width: 200px"
+            >
+              <option value="">All Categories</option>
+            </select>
+            <input
+              type="text"
+              id="types-search"
+              class="search-input"
+              placeholder="Search product types…"
+              oninput="loadTypes()"
+              style="width: 320px"
+            />
+          </div>
+          <div class="card">
+            <div class="card-head">
+              <div class="card-title">Product Types</div>
+              <button class="btn btn-o" onclick="openAddType()">
+                + Add Product Type
+              </button>
+            </div>
+            <div class="tbl-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width: 70px">Image</th>
+                    <th onclick="sortTable(1, 'types-tbody')">Name ↕</th>
+                    <th onclick="sortTable(2, 'types-tbody')">Category ↕</th>
+                    <th onclick="sortTable(3, 'types-tbody')">Grade ↕</th>
+                    <th onclick="sortTable(4, 'types-tbody')">Status ↕</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="types-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── VARIANTS & RATES ── -->
+        <div class="view" id="v-variants">
+          <div class="filter-row">
+            <input
+              type="text"
+              id="variants-search"
+              class="search-input"
+              placeholder="Search by size or product type…"
+              oninput="loadVariants()"
+              style="width: 360px"
+            />
+          </div>
+          <div class="card">
+            <div class="card-head">
+              <div class="card-title">Variants &amp; Live Rates</div>
+              <button class="btn btn-o" onclick="openAddVariant()">
+                + Add Variant
+              </button>
+            </div>
+            <div class="tbl-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width: 70px">Image</th>
+                    <th onclick="sortTable(1, 'variants-tbody')">
+                      Size Label ↕
+                    </th>
+                    <th onclick="sortTable(2, 'variants-tbody')">
+                      Product Type ↕
+                    </th>
+                    <th onclick="sortTable(3, 'variants-tbody')">
+                      Final Rate ↕
+                    </th>
+                    <th>Differential</th>
+                    <th>Note</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="variants-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── INQUIRIES ── -->
+        <div class="view" id="v-inquiries">
+          <div class="filter-row">
+            <input
+              type="text"
+              id="inquiries-search"
+              class="search-input"
+              placeholder="Search by name, email, product…"
+              oninput="loadInquiries(_inqFilter)"
+              style="width: 360px"
+            />
+            <select class="sel-s" onchange="filterInqs(this.value)">
+              <option value="">All Inquiries</option>
+              <option value="unread">Unread only</option>
+              <option value="read">Read only</option>
+            </select>
+          </div>
+          <div class="card">
+            <div class="card-head">
+              <div class="card-title">Customer Inquiries</div>
+            </div>
+            <div class="tbl-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th onclick="sortTable(0, 'inq-tbody')">Name ↕</th>
+                    <th onclick="sortTable(1, 'inq-tbody')">Email ↕</th>
+                    <th>Phone</th>
+                    <th>Product Interest</th>
+                    <th onclick="sortTable(4, 'inq-tbody')">Date ↕</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="inq-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /content -->
+    </div>
+    <!-- /main -->
+
+    <!-- ══════════════ MODALS ══════════════ -->
+
+    <!-- MODAL: ADD / EDIT CATEGORY -->
+    <div class="overlay" id="m-cat">
+      <div class="modal">
+        <div class="modal-h">
+          <h3 id="cat-modal-ttl">Add Category</h3>
+          <button class="modal-close" onclick="closeModal('m-cat')">✕</button>
+        </div>
+        <div class="modal-b">
+          <input type="hidden" id="cat-id" />
+          <div class="f-row2">
+            <div class="f-grp">
+              <label class="f-lbl">Category Name *</label>
+              <input
+                type="text"
+                id="cat-name"
+                class="f-inp"
+                placeholder="e.g. Mild Steel"
+              />
+            </div>
+            <div class="f-grp">
+              <label class="f-lbl">Icon (emoji)</label>
+              <input type="text" id="cat-icon" class="f-inp" placeholder="🔩" />
+            </div>
+          </div>
+          <div class="f-grp">
+            <label class="f-lbl">Description</label>
+            <input
+              type="text"
+              id="cat-desc"
+              class="f-inp"
+              placeholder="Short description shown on customer site"
+            />
+          </div>
+          <div class="f-grp">
+            <label class="f-lbl"
+              >Slug
+              <small
+                style="
+                  text-transform: none;
+                  letter-spacing: 0;
+                  color: var(--gray);
+                "
+                >(auto-generated if blank)</small
+              ></label
+            >
+            <input
+              type="text"
+              id="cat-slug"
+              class="f-inp"
+              placeholder="mild-steel"
+            />
+          </div>
+          <div class="f-grp">
+            <label class="f-lbl">Category Image</label>
+            <div
+              class="img-upload-wrap"
+              onclick="document.getElementById('cat-img-input').click()"
+            >
+              <div class="img-upload-label">
+                Click to upload — <strong>JPG / PNG / WEBP</strong>
+              </div>
+              <img
+                id="cat-img-preview"
+                class="img-upload-preview"
+                alt="preview"
+              />
+            </div>
+            <input
+              type="file"
+              id="cat-img-input"
+              accept="image/*"
+              style="display: none"
+              onchange="previewImg(this, 'cat-img-preview')"
+            />
+            <div
+              id="cat-img-current"
+              style="margin-top: 6px; font-size: 0.78rem; color: var(--brown)"
+            ></div>
+          </div>
+          <div class="f-grp">
+            <label class="f-lbl">Status</label>
+            <select id="cat-active" class="f-sel">
+              <option value="true">Active</option>
+              <option value="false">Inactive</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-f">
+          <button class="btn btn-gh" onclick="closeModal('m-cat')">
+            Cancel
+          </button>
+          <button class="btn btn-o" id="cat-save-btn" onclick="saveCat()">
+            Save Category
+          </button>
         </div>
       </div>
     </div>
-    <div class="modal-f">
-      <button class="btn btn-gh" onclick="closeModal('m-prod')">Cancel</button>
-      <button class="btn btn-o" id="prod-save-btn" onclick="saveProd()">Save Product</button>
-    </div>
-  </div>
-</div>
 
-<!-- ═══ MODAL: ADD / EDIT CATEGORY ═══ -->
-<div class="overlay" id="m-cat">
-  <div class="modal">
-    <div class="modal-h">
-      <h3 id="cat-modal-ttl">Add Category</h3>
-      <button class="modal-close" onclick="closeModal('m-cat')">✕</button>
-    </div>
-    <div class="modal-b">
-      <input type="hidden" id="cat-id">
-      <div class="f-row2">
-        <div class="f-grp">
-          <label class="f-lbl">Category Name *</label>
-          <input type="text" id="cat-name" class="f-inp" placeholder="e.g. Mild Steel">
+    <!-- MODAL: ADD / EDIT PRODUCT TYPE -->
+    <div class="overlay" id="m-type">
+      <div class="modal">
+        <div class="modal-h">
+          <h3 id="type-modal-ttl">Add Product Type</h3>
+          <button class="modal-close" onclick="closeModal('m-type')">✕</button>
         </div>
-        <div class="f-grp">
-          <label class="f-lbl">Icon (emoji)</label>
-          <input type="text" id="cat-icon" class="f-inp" placeholder="🔩">
+        <div class="modal-b">
+          <input type="hidden" id="type-id" />
+          <div class="f-row2">
+            <div class="f-grp">
+              <label class="f-lbl">Type Name *</label>
+              <input
+                type="text"
+                id="type-name"
+                class="f-inp"
+                placeholder="e.g. HR Coil"
+              />
+            </div>
+            <div class="f-grp">
+              <label class="f-lbl">Category *</label>
+              <select id="type-category" class="f-sel"></select>
+            </div>
+          </div>
+          <div class="f-grp">
+            <label class="f-lbl">Description</label>
+            <input
+              type="text"
+              id="type-desc"
+              class="f-inp"
+              placeholder="Short description shown on product card"
+            />
+          </div>
+          <div class="f-row2">
+            <div class="f-grp">
+              <label class="f-lbl">Grade</label>
+              <input
+                type="text"
+                id="type-grade"
+                class="f-inp"
+                placeholder="e.g. IS2062 / E250"
+              />
+            </div>
+            <div class="f-grp">
+              <label class="f-lbl">Status</label>
+              <select id="type-active" class="f-sel">
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
+              </select>
+            </div>
+          </div>
+          <div class="f-grp">
+            <label class="f-lbl">Product Type Image</label>
+            <div
+              class="img-upload-wrap"
+              onclick="document.getElementById('type-img-input').click()"
+            >
+              <div class="img-upload-label">
+                Click to upload — <strong>JPG / PNG / WEBP</strong>
+              </div>
+              <img
+                id="type-img-preview"
+                class="img-upload-preview"
+                alt="preview"
+              />
+            </div>
+            <input
+              type="file"
+              id="type-img-input"
+              accept="image/*"
+              style="display: none"
+              onchange="previewImg(this, 'type-img-preview')"
+            />
+            <div
+              id="type-img-current"
+              style="margin-top: 6px; font-size: 0.78rem; color: var(--brown)"
+            ></div>
+          </div>
+        </div>
+        <div class="modal-f">
+          <button class="btn btn-gh" onclick="closeModal('m-type')">
+            Cancel
+          </button>
+          <button class="btn btn-o" id="type-save-btn" onclick="saveType()">
+            Save Type
+          </button>
         </div>
       </div>
-      <div class="f-grp">
-        <label class="f-lbl">Slug <small style="text-transform:none;font-size:.75rem;color:var(--gray)">(auto-generated if blank)</small></label>
-        <input type="text" id="cat-slug" class="f-inp" placeholder="mild-steel">
-      </div>
-      <div class="f-grp">
-        <label class="f-lbl">Description</label>
-        <textarea id="cat-desc" class="f-area" rows="3" placeholder="Short description…"></textarea>
-      </div>
-      <div class="f-grp">
-        <label class="f-lbl">Status</label>
-        <select id="cat-active" class="f-sel">
-          <option value="true">Active</option>
-          <option value="false">Inactive</option>
-        </select>
-      </div>
     </div>
-    <div class="modal-f">
-      <button class="btn btn-gh" onclick="closeModal('m-cat')">Cancel</button>
-      <button class="btn btn-o" id="cat-save-btn" onclick="saveCat()">Save Category</button>
-    </div>
-  </div>
-</div>
 
-<!-- ═══ MODAL: INQUIRY DETAIL ═══ -->
-<div class="overlay" id="m-inq">
-  <div class="modal" style="max-width:480px">
-    <div class="modal-h">
-      <h3>Inquiry Detail</h3>
-      <button class="modal-close" onclick="closeModal('m-inq')">✕</button>
-    </div>
-    <div class="modal-b" id="inq-detail-body"></div>
-    <div class="modal-f">
-      <button class="btn btn-gh" onclick="closeModal('m-inq')">Close</button>
-    </div>
-  </div>
-</div>
-
-<div class="toast-wrap" id="toasts"></div>
-
-<script>
-// ══════════════════════════════════════════════
-// CONFIG
-// ══════════════════════════════════════════════
-const API_BASE = '';   // Same-origin — Django serves both frontend + API
-
-// ══════════════════════════════════════════════
-// API HELPER — handles both JSON and FormData
-// ══════════════════════════════════════════════
-async function req(endpoint, opts = {}) {
-  const url        = API_BASE + endpoint;
-  const isFormData = opts.body instanceof FormData;
-  try {
-    const res = await fetch(url, {
-      ...opts,
-      // Do NOT set Content-Type for FormData — browser sets it with boundary
-      headers: isFormData ? {} : { 'Content-Type': 'application/json', ...(opts.headers || {}) },
-      signal: AbortSignal.timeout(25000),
-    });
-    if (res.status === 204) return { success: true };
-    const text = await res.text();
-    let json;
-    try { json = JSON.parse(text); }
-    catch { throw new Error(`HTTP ${res.status}: server returned non-JSON`); }
-    if (!res.ok) {
-      const msg = json?.detail || json?.non_field_errors?.[0] || JSON.stringify(json);
-      throw new Error(`HTTP ${res.status}: ${msg}`);
-    }
-    return json;
-  } catch (e) {
-    console.error('API Error:', endpoint, e);
-    toast('Error: ' + e.message, 'tr');
-    return null;
-  }
-}
-
-// ══════════════════════════════════════════════
-// TOAST
-// ══════════════════════════════════════════════
-function toast(msg, type = 'to') {
-  const el = document.createElement('div');
-  el.className = `toast ${type}`;
-  el.textContent = msg;
-  document.getElementById('toasts').appendChild(el);
-  setTimeout(() => el.remove(), 4500);
-}
-
-// ══════════════════════════════════════════════
-// FORMAT HELPERS
-// ══════════════════════════════════════════════
-function fmtPrice(p) { return p != null && p !== '' ? '₹' + Number(p).toLocaleString('en-IN') : '—'; }
-function fmtDate(d)  { return d ? new Date(d).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' }) : '—'; }
-function esc(s) {
-  const d = document.createElement('div');
-  d.textContent = (s == null ? '' : String(s));
-  return d.innerHTML;
-}
-
-// ══════════════════════════════════════════════
-// NAVIGATION
-// ══════════════════════════════════════════════
-function sw(id) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('on'));
-  document.querySelectorAll('.ni').forEach(n => n.classList.remove('on'));
-  document.getElementById('v-' + id).classList.add('on');
-  document.getElementById('ni-' + id).classList.add('on');
-  document.getElementById('page-title').textContent =
-    { dashboard:'Dashboard', products:'Products', categories:'Categories', prices:'Price Control', inquiries:'Inquiries' }[id] || id;
-  if (id === 'dashboard')  loadDash();
-  if (id === 'products')   loadProds();
-  if (id === 'categories') loadCats();
-  if (id === 'prices')     loadPrices();
-  if (id === 'inquiries')  loadInqs('');
-}
-
-// ══════════════════════════════════════════════
-// DASHBOARD
-// ══════════════════════════════════════════════
-async function loadDash() {
-  const [stats, prods, inqs] = await Promise.all([
-    req('/admin/stats/'),
-    req('/admin/products/'),
-    req('/admin/inquiries/'),
-  ]);
-
-  if (stats) {
-    document.getElementById('stat-row').innerHTML = `
-      <div class="sc">  <div class="sc-lbl">Categories</div>    <div class="sc-num">${stats.total_categories||0}</div></div>
-      <div class="sc g"><div class="sc-lbl">Active Products</div><div class="sc-num">${stats.active_products||0}</div></div>
-      <div class="sc r"><div class="sc-lbl">Inactive</div>       <div class="sc-num">${stats.inactive_products||0}</div></div>
-      <div class="sc b"><div class="sc-lbl">Inquiries</div>      <div class="sc-num">${stats.total_inquiries||0}</div></div>
-      <div class="sc r"><div class="sc-lbl">Unread</div>         <div class="sc-num">${stats.unread_inquiries||0}</div></div>`;
-    const pill = document.getElementById('unread-pill');
-    if (stats.unread_inquiries > 0) { pill.textContent = stats.unread_inquiries; pill.style.display = ''; }
-    else pill.style.display = 'none';
-  }
-
-  if (prods && prods.length) {
-    document.getElementById('qp-list').innerHTML = prods.slice(0,12).map(p => `
-      <div style="padding:10px 16px;border-bottom:1px solid var(--bdr2);display:flex;align-items:center;gap:10px">
-        ${p.image_url ? `<img src="${esc(p.image_url)}" style="width:36px;height:36px;object-fit:cover;border-radius:4px;flex-shrink:0">` : '<div style="width:36px;height:36px;background:var(--bg3);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.9rem">📦</div>'}
-        <div style="flex:1;min-width:0">
-          <strong style="font-size:.85rem">${esc(p.name)}</strong>
-          <div style="font-size:.74rem;color:var(--brown)">${esc(p.category_name||'')}</div>
+    <!-- MODAL: ADD / EDIT VARIANT -->
+    <div class="overlay" id="m-variant">
+      <div class="modal">
+        <div class="modal-h">
+          <h3 id="variant-modal-ttl">Add Variant</h3>
+          <button class="modal-close" onclick="closeModal('m-variant')">
+            ✕
+          </button>
         </div>
-        <input type="number" step="0.01" class="inp-s" id="qp${p.id}" value="${p.price_per_ton||''}" style="width:110px" placeholder="Price">
-        <button class="btn btn-o btn-sm" onclick="quickPrice(${p.id})">Update</button>
-      </div>`).join('');
-  } else {
-    document.getElementById('qp-list').innerHTML = '<p class="empty-state">No products found</p>';
-  }
-
-  if (inqs) {
-    document.getElementById('dash-inq').innerHTML = inqs.slice(0,6).map(i => `
-      <tr>
-        <td><strong>${esc(i.name)}</strong></td>
-        <td style="font-size:.8rem;color:var(--brown)">${esc(i.email||'')}</td>
-        <td>${i.is_read ? '✅' : '🟠'}</td>
-      </tr>`).join('') || '<tr><td colspan="3" class="empty-state">No inquiries</td></tr>';
-  }
-}
-
-async function quickPrice(id) {
-  const inp = document.getElementById('qp' + id);
-  const val = inp?.value;
-  if (!val || isNaN(parseFloat(val))) return toast('Enter a valid price', 'tr');
-  const btn = inp.nextElementSibling;
-  btn.disabled = true; btn.textContent = '…';
-  const r = await req(`/admin/products/${id}/price/`, {
-    method: 'PATCH',
-    body: JSON.stringify({ price_per_ton: parseFloat(val), note: 'Updated via dashboard' }),
-  });
-  btn.disabled = false; btn.textContent = 'Update';
-  if (r?.success) toast('Price updated!', 'tg');
-}
-
-// ══════════════════════════════════════════════
-// PRODUCTS
-// ══════════════════════════════════════════════
-async function loadProds() {
-  const data = await req('/admin/products/');
-  if (data === null) return;
-  document.getElementById('prod-tbody').innerHTML = data.length ? data.map(p => `
-    <tr>
-      <td>
-        ${p.image_url
-          ? `<img src="${esc(p.image_url)}" class="prod-thumb" alt="${esc(p.name)}">`
-          : `<div class="prod-no-img">📦</div>`}
-      </td>
-      <td><strong>${esc(p.name)}</strong></td>
-      <td>${esc(p.category_name||'—')}</td>
-      <td>${fmtPrice(p.price_per_ton)}</td>
-      <td><span style="color:${p.price_visible?'#22c55e':'#ef4444'}">${p.price_visible?'✅ Visible':'🚫 Hidden'}</span></td>
-      <td><span class="${p.is_active?'badge-a':'badge-i'}">${p.is_active?'● Active':'● Inactive'}</span></td>
-      <td>
-        <div class="act-btns">
-          <button class="btn btn-gh btn-sm" onclick="openEditProd(${p.id})">✏️ Edit</button>
-          <button class="btn btn-sm ${p.is_active?'btn-r':'btn-g'}" onclick="toggleProdStatus(${p.id},this)">${p.is_active?'Deactivate':'Activate'}</button>
-          <button class="btn btn-gh btn-sm" onclick="togglePriceVis(${p.id},this)">${p.price_visible?'🙈 Hide':'👁️ Show'}</button>
+        <div class="modal-b">
+          <input type="hidden" id="variant-id" />
+          <div class="f-row2">
+            <div class="f-grp">
+              <label class="f-lbl">Size Label *</label>
+              <input
+                type="text"
+                id="variant-size"
+                class="f-inp"
+                placeholder="e.g. 100x100x6mm"
+              />
+            </div>
+            <div class="f-grp">
+              <label class="f-lbl">Product Type *</label>
+              <select id="variant-type" class="f-sel"></select>
+            </div>
+          </div>
+          <div class="f-row2">
+            <div class="f-grp">
+              <label class="f-lbl">Final Rate (₹/MT) *</label>
+              <input
+                type="number"
+                step="0.01"
+                id="variant-rate"
+                class="f-inp"
+                placeholder="45000"
+              />
+            </div>
+            <div class="f-grp">
+              <label class="f-lbl">Differential (±)</label>
+              <input
+                type="text"
+                id="variant-diff"
+                class="f-inp"
+                placeholder="+500"
+              />
+            </div>
+          </div>
+          <div class="f-grp">
+            <label class="f-lbl">Extra Note</label>
+            <textarea
+              id="variant-note"
+              class="f-area"
+              placeholder="e.g. Mandi rate + GST…"
+            ></textarea>
+          </div>
+          <div class="f-grp">
+            <label class="f-lbl">Variant Image</label>
+            <div
+              class="img-upload-wrap"
+              onclick="document.getElementById('variant-img-input').click()"
+            >
+              <div class="img-upload-label">
+                Click to upload — <strong>JPG / PNG / WEBP</strong>
+              </div>
+              <img
+                id="variant-img-preview"
+                class="img-upload-preview"
+                alt="preview"
+              />
+            </div>
+            <input
+              type="file"
+              id="variant-img-input"
+              accept="image/*"
+              style="display: none"
+              onchange="previewImg(this, 'variant-img-preview')"
+            />
+            <div
+              id="variant-img-current"
+              style="margin-top: 6px; font-size: 0.78rem; color: var(--brown)"
+            ></div>
+          </div>
         </div>
-      </td>
-    </tr>`).join('') : '<tr><td colspan="7" class="empty-state">No products found</td></tr>';
-}
-
-async function toggleProdStatus(id, btn) {
-  btn.disabled = true;
-  const r = await req(`/admin/products/${id}/toggle/`, { method: 'PATCH' });
-  btn.disabled = false;
-  if (r?.success) { toast('Status updated', 'tg'); loadProds(); }
-}
-
-async function togglePriceVis(id, btn) {
-  btn.disabled = true;
-  const r = await req(`/admin/products/${id}/price-visible/`, { method: 'PATCH' });
-  btn.disabled = false;
-  if (r?.success) { toast('Price visibility updated', 'tg'); loadProds(); }
-}
-
-// ══════════════════════════════════════════════
-// CATEGORIES
-// ══════════════════════════════════════════════
-// Store categories in a map so Edit can look up data by id (avoids HTML-escaping JSON bugs)
-const _catMap = {};
-
-async function loadCats() {
-  const data = await req('/admin/categories/');
-  if (data === null) return;
-  data.forEach(c => _catMap[c.id] = c);
-  document.getElementById('cat-tbody').innerHTML = data.length ? data.map(c => `
-    <tr>
-      <td style="font-size:1.5rem">${c.icon || '📁'}</td>
-      <td><strong>${esc(c.name)}</strong></td>
-      <td style="color:var(--brown)">${esc(c.slug)}</td>
-      <td>${c.product_count || 0}</td>
-      <td><span class="${c.is_active?'badge-a':'badge-i'}">${c.is_active?'● Active':'● Inactive'}</span></td>
-      <td><button class="btn btn-gh btn-sm" onclick="openEditCat(${c.id})">✏️ Edit</button></td>
-    </tr>`).join('') : '<tr><td colspan="6" class="empty-state">No categories found</td></tr>';
-}
-
-// ══════════════════════════════════════════════
-// PRICE CONTROL
-// ══════════════════════════════════════════════
-async function loadPrices() {
-  const prods = await req('/admin/products/');
-  if (prods === null) return;
-  document.getElementById('price-tbody').innerHTML = prods.length ? prods.map(p => `
-    <tr>
-      <td>
-        ${p.image_url ? `<img src="${esc(p.image_url)}" style="width:32px;height:32px;object-fit:cover;border-radius:3px;vertical-align:middle;margin-right:6px">` : ''}
-        <strong>${esc(p.name)}</strong>
-      </td>
-      <td>${esc(p.category_name||'—')}</td>
-      <td>${fmtPrice(p.price_per_ton)}</td>
-      <td><input type="number" step="0.01" class="inp-s" id="pc${p.id}" value="${p.price_per_ton||''}" style="width:140px" placeholder="New price"></td>
-      <td><button class="btn btn-o btn-sm" onclick="priceUpdate(${p.id})">Update</button></td>
-    </tr>`).join('') : '<tr><td colspan="5" class="empty-state">No products</td></tr>';
-}
-
-async function priceUpdate(id) {
-  const val = document.getElementById('pc' + id)?.value;
-  if (!val || isNaN(parseFloat(val))) return toast('Enter a valid price', 'tr');
-  const r = await req(`/admin/products/${id}/price/`, {
-    method: 'PATCH',
-    body: JSON.stringify({ price_per_ton: parseFloat(val), note: 'Updated via price control' }),
-  });
-  if (r?.success) { toast('Price updated!', 'tg'); loadPrices(); }
-}
-
-// ══════════════════════════════════════════════
-// INQUIRIES
-// ══════════════════════════════════════════════
-let _inqFilter = '';
-function filterInqs(val) { _inqFilter = val; loadInqs(val); }
-
-async function loadInqs(filter) {
-  const url  = filter ? `/admin/inquiries/?status=${filter}` : '/admin/inquiries/';
-  const data = await req(url);
-  if (data === null) return;
-  document.getElementById('inq-tbody').innerHTML = data.length ? data.map(i => `
-    <tr>
-      <td><strong>${esc(i.name)}</strong></td>
-      <td>${esc(i.email||'—')}</td>
-      <td>${esc(i.phone||'—')}</td>
-      <td>${esc(i.product_interest||'—')}</td>
-      <td style="font-size:.8rem">${fmtDate(i.created_at)}</td>
-      <td>${i.is_read ? '<span class="badge-a">✅ Read</span>' : '<span style="color:#f59e0b;font-weight:600">🟠 Unread</span>'}</td>
-      <td>
-        <div class="act-btns">
-          <button class="btn btn-gh btn-sm" onclick="viewInquiry(${i.id})">View</button>
-          ${!i.is_read ? `<button class="btn btn-g btn-sm" onclick="markRead(${i.id})">Mark Read</button>` : ''}
-          <button class="btn btn-r btn-sm" onclick="delInq(${i.id})">Delete</button>
+        <div class="modal-f">
+          <button class="btn btn-gh" onclick="closeModal('m-variant')">
+            Cancel
+          </button>
+          <button
+            class="btn btn-o"
+            id="variant-save-btn"
+            onclick="saveVariant()"
+          >
+            Save Variant
+          </button>
         </div>
-      </td>
-    </tr>`).join('') : '<tr><td colspan="7" class="empty-state">No inquiries found</td></tr>';
-}
-
-// Store inquiry data for modal view
-const _inqMap = {};
-async function loadInqMap() {
-  const data = await req('/admin/inquiries/');
-  if (data) data.forEach(i => _inqMap[i.id] = i);
-}
-
-function viewInquiry(id) {
-  const i = _inqMap[id];
-  if (!i) return toast('Inquiry data not loaded yet', 'to');
-  document.getElementById('inq-detail-body').innerHTML = `
-    <div style="display:grid;gap:14px">
-      <div><div class="f-lbl">Name</div>            <div>${esc(i.name)}</div></div>
-      <div><div class="f-lbl">Email</div>           <div>${esc(i.email||'—')}</div></div>
-      <div><div class="f-lbl">Phone</div>           <div>${esc(i.phone||'—')}</div></div>
-      <div><div class="f-lbl">Company</div>         <div>${esc(i.company||'—')}</div></div>
-      <div><div class="f-lbl">Product Interest</div><div>${esc(i.product_interest||'—')}</div></div>
-      <div><div class="f-lbl">Message</div>
-        <div style="background:var(--bg2);padding:12px;border-radius:4px;line-height:1.65;white-space:pre-wrap">${esc(i.message||'—')}</div>
       </div>
-      <div><div class="f-lbl">Date</div>  <div>${fmtDate(i.created_at)}</div></div>
-      <div><div class="f-lbl">Status</div><div>${i.is_read ? '✅ Read' : '🟠 Unread'}</div></div>
-    </div>`;
-  document.getElementById('m-inq').classList.add('on');
-}
+    </div>
 
-async function markRead(id) {
-  const r = await req(`/admin/inquiries/${id}/read/`, { method: 'PATCH' });
-  if (r?.success) {
-    toast('Marked as read', 'tg');
-    if (_inqMap[id]) _inqMap[id].is_read = true;
-    loadInqs(_inqFilter);
-    loadDash();
-  }
-}
+    <!-- MODAL: INQUIRY DETAIL -->
+    <div class="overlay" id="m-inq">
+      <div class="modal" style="max-width: 480px">
+        <div class="modal-h">
+          <h3>Inquiry Detail</h3>
+          <button class="modal-close" onclick="closeModal('m-inq')">✕</button>
+        </div>
+        <div class="modal-b" id="inq-detail-body"></div>
+        <div class="modal-f">
+          <button class="btn btn-gh" onclick="closeModal('m-inq')">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
 
-async function delInq(id) {
-  if (!confirm('Delete this inquiry permanently?')) return;
-  const r = await req(`/admin/inquiries/${id}/delete/`, { method: 'DELETE' });
-  if (r?.success) { toast('Deleted', 'tg'); delete _inqMap[id]; loadInqs(_inqFilter); }
-}
+    <div class="toast-wrap" id="toasts"></div>
 
-// ══════════════════════════════════════════════
-// IMAGE UPLOAD HELPERS
-// ══════════════════════════════════════════════
-function onImageSelect(input) {
-  const file = input.files[0];
-  if (!file) return;
-  if (file.size > 6 * 1024 * 1024) {
-    toast('Image too large (max 5 MB)', 'tr');
-    input.value = '';
-    return;
-  }
-  const reader = new FileReader();
-  reader.onload = e => {
-    document.getElementById('img-preview').src = e.target.result;
-    document.getElementById('img-preview-wrap').style.display = 'block';
-  };
-  reader.readAsDataURL(file);
-}
+    <!-- ══════════════ JAVASCRIPT ══════════════ -->
+    <script>
+      const API_BASE = "/api";
 
-function removeImage() {
-  document.getElementById('prod-image').value = '';
-  document.getElementById('img-preview-wrap').style.display = 'none';
-  document.getElementById('img-preview').src = '';
-}
+      // ── API HELPER ──────────────────────────────────────
+      async function req(endpoint, opts = {}) {
+        const url = API_BASE + endpoint;
+        const isFormData = opts.body instanceof FormData;
+        try {
+          const res = await fetch(url, {
+            ...opts,
+            headers: isFormData
+              ? {}
+              : { "Content-Type": "application/json", ...(opts.headers || {}) },
+            signal: AbortSignal.timeout(25000),
+          });
+          if (res.status === 204) return { success: true };
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok) {
+            const msg =
+              data.detail ||
+              data.error ||
+              data.non_field_errors?.[0] ||
+              `HTTP ${res.status}`;
+            throw new Error(msg);
+          }
+          return data;
+        } catch (e) {
+          console.error("API Error:", endpoint, e);
+          toast(e.message || "Request failed", "tr");
+          return null;
+        }
+      }
 
-// ══════════════════════════════════════════════
-// PRODUCT MODAL
-// ══════════════════════════════════════════════
-let _cats = [];
+      // ── TOAST ─────────────────────────────────────────
+      function toast(msg, type = "to") {
+        const el = document.createElement("div");
+        el.className = `toast ${type}`;
+        el.textContent = msg;
+        document.getElementById("toasts").appendChild(el);
+        setTimeout(() => el.remove(), 4500);
+      }
 
-async function openAddProd() {
-  document.getElementById('prod-modal-ttl').textContent = 'Add New Product';
-  document.getElementById('prod-id').value        = '';
-  document.getElementById('prod-name').value      = '';
-  document.getElementById('prod-price').value     = '';
-  document.getElementById('prod-desc').value      = '';
-  document.getElementById('prod-active').value    = 'true';
-  document.getElementById('prod-price-visible').value = 'true';
-  document.getElementById('prod-save-btn').textContent = 'Save Product';
-  removeImage();
-  document.getElementById('current-img-wrap').style.display = 'none';
-  await loadCatDropdown(null);
-  document.getElementById('m-prod').classList.add('on');
-}
+      // ── FORMAT HELPERS ────────────────────────────────
+      function fmtPrice(p) {
+        return p != null && p > 0
+          ? "₹" + Number(p).toLocaleString("en-IN")
+          : "—";
+      }
+      function fmtDate(d) {
+        return d
+          ? new Date(d).toLocaleDateString("en-IN", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+            })
+          : "—";
+      }
+      function esc(s) {
+        return String(s || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+      function thumbHtml(url) {
+        return url
+          ? `<img src="${esc(url)}" class="tbl-thumb" loading="lazy" />`
+          : `<div class="tbl-thumb-ph">📷</div>`;
+      }
 
-async function openEditProd(id) {
-  const p = await req(`/admin/products/${id}/`);
-  if (!p) return;
-  document.getElementById('prod-modal-ttl').textContent    = 'Edit Product';
-  document.getElementById('prod-id').value                 = p.id;
-  document.getElementById('prod-name').value               = p.name || '';
-  document.getElementById('prod-price').value              = p.price_per_ton || '';
-  document.getElementById('prod-desc').value               = p.description || '';
-  document.getElementById('prod-active').value             = p.is_active ? 'true' : 'false';
-  document.getElementById('prod-price-visible').value      = p.price_visible ? 'true' : 'false';
-  document.getElementById('prod-save-btn').textContent     = 'Update Product';
-  removeImage();
-  // Show existing image
-  const cw  = document.getElementById('current-img-wrap');
-  const cim = document.getElementById('current-img');
-  if (p.image_url) {
-    cim.src = p.image_url;
-    cw.style.display = 'block';
-  } else {
-    cw.style.display = 'none';
-  }
-  await loadCatDropdown(p.category);
-  document.getElementById('m-prod').classList.add('on');
-}
+      // ── IMAGE PREVIEW ─────────────────────────────────
+      function previewImg(input, previewId) {
+        const file = input.files[0];
+        if (!file) return;
+        const prev = document.getElementById(previewId);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          prev.src = e.target.result;
+          prev.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
 
-async function loadCatDropdown(selectedId) {
-  _cats = await req('/admin/categories/') || [];
-  const sel = document.getElementById('prod-category');
-  sel.innerHTML = '<option value="">— Select Category —</option>' +
-    _cats.map(c => `<option value="${c.id}" ${c.id == selectedId ? 'selected' : ''}>${esc(c.name)}</option>`).join('');
-}
+      // ── NAVIGATION ────────────────────────────────────
+      function sw(id) {
+        document
+          .querySelectorAll(".view")
+          .forEach((v) => v.classList.remove("on"));
+        document
+          .querySelectorAll(".ni")
+          .forEach((n) => n.classList.remove("on"));
+        document.getElementById("v-" + id).classList.add("on");
+        document.getElementById("ni-" + id).classList.add("on");
+        document.getElementById("page-title").textContent =
+          {
+            dashboard: "Dashboard",
+            types: "Product Types",
+            variants: "Variants & Rates",
+            categories: "Categories",
+            inquiries: "Inquiries",
+          }[id] || id;
+        if (id === "dashboard") loadDashboard();
+        if (id === "categories") loadCategories();
+        if (id === "types") {
+          loadTypes();
+          loadTypeCategoryFilter();
+          loadProductTypesSubmenu();
+        }
+        if (id === "variants") loadVariants();
+        if (id === "inquiries") loadInquiries("");
+      }
 
-async function saveProd() {
-  const id       = document.getElementById('prod-id').value;
-  const name     = document.getElementById('prod-name').value.trim();
-  const cat_id   = document.getElementById('prod-category').value;
-  const price    = document.getElementById('prod-price').value;
-  const desc     = document.getElementById('prod-desc').value.trim();
-  const isActive = document.getElementById('prod-active').value === 'true';
-  const priceVis = document.getElementById('prod-price-visible').value === 'true';
-  const imgFile  = document.getElementById('prod-image').files[0];
+      // ── DASHBOARD ─────────────────────────────────────
+      async function loadDashboard() {
+        const stats = await req("/admin/stats/");
+        if (!stats) return;
+        const unread = stats.unread_inquiries || 0;
+        document.getElementById("stat-row").innerHTML = `
+          <div class="sc"><div class="sc-lbl">Categories</div><div class="sc-num">${stats.total_categories || 0}</div></div>
+          <div class="sc"><div class="sc-lbl">Product Types</div><div class="sc-num">${stats.active_product_types || 0}</div></div>
+          <div class="sc"><div class="sc-lbl">Active Variants</div><div class="sc-num">${stats.active_variants || 0}</div></div>
+          <div class="sc"><div class="sc-lbl">Unread Inquiries</div><div class="sc-num" style="color:${unread > 0 ? "var(--orange)" : "var(--dark)"}">${unread}</div></div>`;
+        const badge = document.getElementById("unread-badge");
+        if (unread > 0) {
+          badge.textContent = unread;
+          badge.style.display = "inline";
+        } else badge.style.display = "none";
+      }
 
-  if (!name)   return toast('Product name is required', 'tr');
-  if (!cat_id) return toast('Please select a category', 'tr');
+      // ── CATEGORIES ────────────────────────────────────
+      let _catMap = {};
+      async function loadCategories() {
+        let data = await req("/admin/categories/");
+        if (!data) return;
+        const q = (document.getElementById("categories-search")?.value || "")
+          .toLowerCase()
+          .trim();
+        if (q)
+          data = data.filter(
+            (c) =>
+              c.name.toLowerCase().includes(q) ||
+              c.slug.toLowerCase().includes(q),
+          );
+        _catMap = {};
+        data.forEach((c) => (_catMap[c.id] = c));
+        const html = data.length
+          ? data
+              .map(
+                (c) => `
+            <tr>
+              <td>${thumbHtml(c.image || c.image_url || "")}</td>
+              <td><strong>${esc(c.name)}</strong>${c.description ? `<br><small style="color:var(--brown)">${esc(c.description)}</small>` : ""}</td>
+              <td><code style="font-size:.78rem;color:var(--brown)">${esc(c.slug)}</code></td>
+              <td style="font-size:1.3rem">${esc(c.icon || "—")}</td>
+              <td><span class="${c.is_active ? "badge-a" : "badge-i"}">${c.is_active ? "● Active" : "● Inactive"}</span></td>
+              <td><div class="act-btns">
+                <button class="btn btn-gh btn-sm" onclick="openEditCat(${c.id})">✏️ Edit</button>
+              </div></td>
+            </tr>`,
+              )
+              .join("")
+          : '<tr><td colspan="6" class="empty-state">No categories found</td></tr>';
+        document.getElementById("cat-tbody").innerHTML = html;
+      }
 
-  const btn = document.getElementById('prod-save-btn');
-  btn.disabled = true; btn.textContent = 'Saving…';
+      function openAddCat() {
+        document.getElementById("cat-modal-ttl").textContent = "Add Category";
+        ["cat-id", "cat-name", "cat-icon", "cat-slug", "cat-desc"].forEach(
+          (id) => (document.getElementById(id).value = ""),
+        );
+        document.getElementById("cat-active").value = "true";
+        document.getElementById("cat-save-btn").textContent = "Save Category";
+        document.getElementById("cat-img-preview").style.display = "none";
+        document.getElementById("cat-img-input").value = "";
+        document.getElementById("cat-img-current").textContent = "";
+        document.getElementById("m-cat").classList.add("on");
+      }
 
-  let body;
-  if (imgFile) {
-    // Use FormData when an image is being uploaded
-    const fd = new FormData();
-    fd.append('name',          name);
-    fd.append('category',      cat_id);
-    fd.append('description',   desc);
-    fd.append('is_active',     isActive);
-    fd.append('price_visible', priceVis);
-    fd.append('image',         imgFile);
-    if (price) fd.append('price_per_ton', parseFloat(price));
-    body = fd;
-  } else {
-    // Plain JSON when no image
-    body = JSON.stringify({
-      name,
-      category:      parseInt(cat_id),
-      description:   desc,
-      is_active:     isActive,
-      price_visible: priceVis,
-      ...(price ? { price_per_ton: parseFloat(price) } : {}),
-    });
-  }
+      function openEditCat(id) {
+        const c = _catMap[id];
+        if (!c) return toast("Category data not loaded", "to");
+        document.getElementById("cat-modal-ttl").textContent = "Edit Category";
+        document.getElementById("cat-id").value = c.id;
+        document.getElementById("cat-name").value = c.name || "";
+        document.getElementById("cat-icon").value = c.icon || "";
+        document.getElementById("cat-slug").value = c.slug || "";
+        document.getElementById("cat-desc").value = c.description || "";
+        document.getElementById("cat-active").value = c.is_active
+          ? "true"
+          : "false";
+        document.getElementById("cat-save-btn").textContent = "Update Category";
+        document.getElementById("cat-img-preview").style.display = "none";
+        document.getElementById("cat-img-input").value = "";
+        const imgSrc = c.image || c.image_url || "";
+        document.getElementById("cat-img-current").textContent = imgSrc
+          ? "Current: " + imgSrc.split("/").pop()
+          : "No image uploaded yet";
+        document.getElementById("m-cat").classList.add("on");
+      }
 
-  const url    = id ? `/admin/products/${id}/` : '/admin/products/';
-  const method = id ? 'PATCH' : 'POST';
-  const result = await req(url, { method, body });
+      async function saveCat() {
+        const id = document.getElementById("cat-id").value;
+        const name = document.getElementById("cat-name").value.trim();
+        const icon = document.getElementById("cat-icon").value.trim();
+        const slug = document.getElementById("cat-slug").value.trim();
+        const desc = document.getElementById("cat-desc").value.trim();
+        const active = document.getElementById("cat-active").value === "true";
+        const imgFile = document.getElementById("cat-img-input").files[0];
+        if (!name) return toast("Category name is required", "tr");
+        const btn = document.getElementById("cat-save-btn");
+        btn.disabled = true;
+        btn.textContent = "Saving…";
 
-  btn.disabled = false;
-  btn.textContent = id ? 'Update Product' : 'Save Product';
+        let result;
+        if (imgFile) {
+          const fd = new FormData();
+          fd.append("name", name);
+          fd.append("icon", icon);
+          fd.append("is_active", active);
+          fd.append("description", desc);
+          if (slug) fd.append("slug", slug);
+          fd.append("image", imgFile);
+          result = await req(
+            id ? `/admin/categories/${id}/` : "/admin/categories/",
+            { method: id ? "PATCH" : "POST", body: fd },
+          );
+        } else {
+          const payload = { name, icon, is_active: active, description: desc };
+          if (slug) payload.slug = slug;
+          result = await req(
+            id ? `/admin/categories/${id}/` : "/admin/categories/",
+            { method: id ? "PATCH" : "POST", body: JSON.stringify(payload) },
+          );
+        }
+        btn.disabled = false;
+        btn.textContent = id ? "Update Category" : "Save Category";
+        if (result && result.id) {
+          _catMap[result.id] = result;
+          toast(id ? "Category updated!" : "Category added!", "tg");
+          closeModal("m-cat");
+          loadCategories();
+        }
+      }
 
-  if (result && (result.id || result.name)) {
-    toast(id ? 'Product updated!' : 'Product added!', 'tg');
-    closeModal('m-prod');
-    loadProds();
-  }
-}
+      // ── PRODUCT TYPES ─────────────────────────────────
+      let _typeMap = {};
+      let _catsForDropdown = [];
 
-// ══════════════════════════════════════════════
-// CATEGORY MODAL
-// ══════════════════════════════════════════════
-function openAddCat() {
-  document.getElementById('cat-modal-ttl').textContent = 'Add New Category';
-  document.getElementById('cat-id').value     = '';
-  document.getElementById('cat-name').value   = '';
-  document.getElementById('cat-icon').value   = '';
-  document.getElementById('cat-slug').value   = '';
-  document.getElementById('cat-desc').value   = '';
-  document.getElementById('cat-active').value = 'true';
-  document.getElementById('cat-save-btn').textContent = 'Save Category';
-  document.getElementById('m-cat').classList.add('on');
-}
+      async function loadTypes() {
+        let data = await req("/admin/product-types/");
+        if (!data) return;
+        const catFilter = document.getElementById("type-category-filter").value;
+        const q = (document.getElementById("types-search")?.value || "")
+          .toLowerCase()
+          .trim();
+        if (catFilter)
+          data = data.filter((t) => String(t.category) === catFilter);
+        if (q)
+          data = data.filter(
+            (t) =>
+              t.name.toLowerCase().includes(q) ||
+              (t.category_name && t.category_name.toLowerCase().includes(q)),
+          );
+        _typeMap = {};
+        data.forEach((t) => (_typeMap[t.id] = t));
+        const html = data.length
+          ? data
+              .map(
+                (t) => `
+            <tr>
+              <td>${thumbHtml(t.image || t.image_url || "")}</td>
+              <td><strong>${esc(t.name)}</strong>${t.description ? `<br><small style="color:var(--brown)">${esc(t.description)}</small>` : ""}</td>
+              <td>${esc(t.category_name || "—")}</td>
+              <td><code style="font-size:.78rem">${esc(t.grade || "—")}</code></td>
+              <td><span class="${t.is_active ? "badge-a" : "badge-i"}">${t.is_active ? "● Active" : "● Inactive"}</span></td>
+              <td><div class="act-btns">
+                <button class="btn btn-gh btn-sm" onclick="openEditType(${t.id})">✏️ Edit</button>
+                <button class="btn btn-sm ${t.is_active ? "btn-r" : "btn-g"}" onclick="toggleTypeStatus(${t.id}, this)">${t.is_active ? "Deactivate" : "Activate"}</button>
+              </div></td>
+            </tr>`,
+              )
+              .join("")
+          : '<tr><td colspan="6" class="empty-state">No product types found</td></tr>';
+        document.getElementById("types-tbody").innerHTML = html;
+      }
 
-function openEditCat(id) {
-  const c = _catMap[id];
-  if (!c) return toast('Category data not loaded', 'to');
-  document.getElementById('cat-modal-ttl').textContent = 'Edit Category';
-  document.getElementById('cat-id').value     = c.id;
-  document.getElementById('cat-name').value   = c.name || '';
-  document.getElementById('cat-icon').value   = c.icon || '';
-  document.getElementById('cat-slug').value   = c.slug || '';
-  document.getElementById('cat-desc').value   = c.description || '';
-  document.getElementById('cat-active').value = c.is_active ? 'true' : 'false';
-  document.getElementById('cat-save-btn').textContent = 'Update Category';
-  document.getElementById('m-cat').classList.add('on');
-}
+      async function toggleTypeStatus(id, btn) {
+        btn.disabled = true;
+        const r = await req(`/admin/product-types/${id}/toggle/`, {
+          method: "PATCH",
+        });
+        btn.disabled = false;
+        if (r?.success) {
+          toast("Status updated", "tg");
+          loadTypes();
+        }
+      }
 
-async function saveCat() {
-  const id       = document.getElementById('cat-id').value;
-  const name     = document.getElementById('cat-name').value.trim();
-  const icon     = document.getElementById('cat-icon').value.trim();
-  const slug     = document.getElementById('cat-slug').value.trim();
-  const desc     = document.getElementById('cat-desc').value.trim();
-  const isActive = document.getElementById('cat-active').value === 'true';
+      async function loadCatDropdownForType(selectedId) {
+        _catsForDropdown = (await req("/admin/categories/")) || [];
+        const sel = document.getElementById("type-category");
+        sel.innerHTML =
+          '<option value="">— Select Category —</option>' +
+          _catsForDropdown
+            .map(
+              (c) =>
+                `<option value="${c.id}" ${c.id == selectedId ? "selected" : ""}>${esc(c.name)}</option>`,
+            )
+            .join("");
+      }
 
-  if (!name) return toast('Category name is required', 'tr');
+      async function loadTypeCategoryFilter() {
+        const cats = (await req("/admin/categories/")) || [];
+        const sel = document.getElementById("type-category-filter");
+        const cur = sel.value;
+        sel.innerHTML = '<option value="">All Categories</option>';
+        cats.forEach((c) => {
+          const o = document.createElement("option");
+          o.value = c.id;
+          o.textContent = c.name;
+          if (String(c.id) === cur) o.selected = true;
+          sel.appendChild(o);
+        });
+      }
 
-  const payload = { name, icon, description: desc, is_active: isActive };
-  if (slug) payload.slug = slug;
+      async function loadProductTypesSubmenu() {
+        const data = (await req("/admin/product-types/")) || [];
+        const container = document.getElementById("product-types-submenu");
+        container.innerHTML = data.length
+          ? data
+              .slice(0, 10)
+              .map(
+                (t) =>
+                  `<div class="sub-item" onclick="sw('types');document.getElementById('types-search').value='${esc(t.name)}';loadTypes();">${esc(t.name)}</div>`,
+              )
+              .join("")
+          : '<div style="padding:7px 20px;color:var(--gray);font-size:.8rem">No types yet</div>';
+        container.style.display = "block";
+      }
 
-  const btn = document.getElementById('cat-save-btn');
-  btn.disabled = true; btn.textContent = 'Saving…';
+      function openAddType() {
+        document.getElementById("type-modal-ttl").textContent =
+          "Add Product Type";
+        ["type-id", "type-name", "type-grade", "type-desc"].forEach(
+          (id) => (document.getElementById(id).value = ""),
+        );
+        document.getElementById("type-active").value = "true";
+        document.getElementById("type-save-btn").textContent = "Save Type";
+        document.getElementById("type-img-preview").style.display = "none";
+        document.getElementById("type-img-input").value = "";
+        document.getElementById("type-img-current").textContent = "";
+        loadCatDropdownForType(null);
+        document.getElementById("m-type").classList.add("on");
+      }
 
-  const url    = id ? `/admin/categories/${id}/` : '/admin/categories/';
-  const method = id ? 'PATCH' : 'POST';
-  const result = await req(url, { method, body: JSON.stringify(payload) });
+      async function openEditType(id) {
+        const t = _typeMap[id];
+        if (!t) return toast("Type data not loaded", "to");
+        document.getElementById("type-modal-ttl").textContent =
+          "Edit Product Type";
+        document.getElementById("type-id").value = t.id;
+        document.getElementById("type-name").value = t.name || "";
+        document.getElementById("type-grade").value = t.grade || "";
+        document.getElementById("type-desc").value = t.description || "";
+        document.getElementById("type-active").value = t.is_active
+          ? "true"
+          : "false";
+        document.getElementById("type-save-btn").textContent = "Update Type";
+        document.getElementById("type-img-preview").style.display = "none";
+        document.getElementById("type-img-input").value = "";
+        const imgSrc = t.image || t.image_url || "";
+        document.getElementById("type-img-current").textContent = imgSrc
+          ? "Current: " + imgSrc.split("/").pop()
+          : "No image uploaded yet";
+        await loadCatDropdownForType(t.category);
+        document.getElementById("m-type").classList.add("on");
+      }
 
-  btn.disabled = false;
-  btn.textContent = id ? 'Update Category' : 'Save Category';
+      async function saveType() {
+        const id = document.getElementById("type-id").value;
+        const name = document.getElementById("type-name").value.trim();
+        const cat_id = document.getElementById("type-category").value;
+        const grade = document.getElementById("type-grade").value.trim();
+        const desc = document.getElementById("type-desc").value.trim();
+        const active = document.getElementById("type-active").value === "true";
+        const imgFile = document.getElementById("type-img-input").files[0];
+        if (!name || !cat_id)
+          return toast("Name and Category are required", "tr");
+        const btn = document.getElementById("type-save-btn");
+        btn.disabled = true;
+        btn.textContent = "Saving…";
 
-  if (result && (result.id || result.name)) {
-    if (result.id) _catMap[result.id] = result;
-    toast(id ? 'Category updated!' : 'Category added!', 'tg');
-    closeModal('m-cat');
-    loadCats();
-  }
-}
+        let result;
+        if (imgFile) {
+          const fd = new FormData();
+          fd.append("name", name);
+          fd.append("category", parseInt(cat_id));
+          fd.append("grade", grade);
+          fd.append("description", desc);
+          fd.append("is_active", active);
+          fd.append("image", imgFile);
+          result = await req(
+            id ? `/admin/product-types/${id}/` : "/admin/product-types/",
+            { method: id ? "PATCH" : "POST", body: fd },
+          );
+        } else {
+          const payload = {
+            name,
+            category: parseInt(cat_id),
+            grade,
+            description: desc,
+            is_active: active,
+          };
+          result = await req(
+            id ? `/admin/product-types/${id}/` : "/admin/product-types/",
+            { method: id ? "PATCH" : "POST", body: JSON.stringify(payload) },
+          );
+        }
+        btn.disabled = false;
+        btn.textContent = id ? "Update Type" : "Save Type";
+        if (result && result.id) {
+          toast(id ? "Type updated!" : "Type added!", "tg");
+          closeModal("m-type");
+          loadTypes();
+        }
+      }
 
-// ══════════════════════════════════════════════
-// MODAL HELPERS
-// ══════════════════════════════════════════════
-function closeModal(id) {
-  document.getElementById(id).classList.remove('on');
-}
-document.querySelectorAll('.overlay').forEach(ov => {
-  ov.addEventListener('click', e => { if (e.target === ov) ov.classList.remove('on'); });
-});
+      // ── VARIANTS ──────────────────────────────────────
+      let _variantMap = {};
 
-// Drag & drop visual feedback
-const dz = document.getElementById('img-drop-zone');
-if (dz) {
-  dz.addEventListener('dragover',  e => { e.preventDefault(); dz.classList.add('drag'); });
-  dz.addEventListener('dragleave', ()  => dz.classList.remove('drag'));
-  dz.addEventListener('drop',      e => { e.preventDefault(); dz.classList.remove('drag');
-    const f = e.dataTransfer.files[0]; if (f) { document.getElementById('prod-image').files = e.dataTransfer.files; onImageSelect(document.getElementById('prod-image')); }
-  });
-}
+      async function loadVariants() {
+        let data = await req("/admin/product-variants/");
+        if (!data) return;
+        const q = (document.getElementById("variants-search")?.value || "")
+          .toLowerCase()
+          .trim();
+        if (q)
+          data = data.filter(
+            (v) =>
+              (v.size_label || "").toLowerCase().includes(q) ||
+              (v.product_type_name || "").toLowerCase().includes(q),
+          );
+        _variantMap = {};
+        data.forEach((v) => (_variantMap[v.id] = v));
+        const html = data.length
+          ? data
+              .map(
+                (v) => `
+            <tr>
+              <td>${thumbHtml(v.image || v.image_url || "")}</td>
+              <td><strong>${esc(v.size_label)}</strong></td>
+              <td>${esc(v.product_type_name || "—")}</td>
+              <td><span class="rate-tag">${fmtPrice(v.final_rate)}</span></td>
+              <td>${v.differential ? `<span class="diff-tag">${esc(v.differential)}</span>` : "—"}</td>
+              <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(v.extra_note || "")}">${esc(v.extra_note || "—")}</td>
+              <td>
+                <div class="act-btns">
+                  <button class="btn btn-gh btn-sm" onclick="openEditVariant(${v.id})">✏️ Edit</button>
+                  <input type="number" step="0.01" id="qv${v.id}" value="${v.final_rate || ""}" style="width:110px" class="inp-s" placeholder="New rate" />
+                  <button class="btn btn-o btn-sm" onclick="quickRateUpdate(${v.id})">Update</button>
+                </div>
+              </td>
+            </tr>`,
+              )
+              .join("")
+          : '<tr><td colspan="7" class="empty-state">No variants found</td></tr>';
+        document.getElementById("variants-tbody").innerHTML = html;
+      }
 
-// ══════════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════════
-loadDash();
-loadInqMap();   // Pre-load so View modal works immediately
-</script>
-</body>
+      async function quickRateUpdate(id) {
+        const inp = document.getElementById("qv" + id);
+        const val = inp?.value;
+        if (!val || isNaN(parseFloat(val)))
+          return toast("Enter a valid rate", "tr");
+        const btn = inp.nextElementSibling;
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = "…";
+        }
+        const r = await req(`/admin/product-variants/${id}/`, {
+          method: "PATCH",
+          body: JSON.stringify({ final_rate: parseFloat(val) }),
+        });
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = "Update";
+        }
+        if (r && (r.id || r.success)) {
+          toast("Rate updated!", "tg");
+          loadVariants();
+        }
+      }
+
+      async function loadTypeDropdownForVariant(selectedId) {
+        const types = (await req("/admin/product-types/")) || [];
+        const sel = document.getElementById("variant-type");
+        sel.innerHTML =
+          '<option value="">— Select Type —</option>' +
+          types
+            .map(
+              (t) =>
+                `<option value="${t.id}" ${t.id == selectedId ? "selected" : ""}>${esc(t.name)}</option>`,
+            )
+            .join("");
+      }
+
+      function openAddVariant() {
+        document.getElementById("variant-modal-ttl").textContent =
+          "Add Variant";
+        [
+          "variant-id",
+          "variant-size",
+          "variant-rate",
+          "variant-diff",
+          "variant-note",
+        ].forEach((id) => (document.getElementById(id).value = ""));
+        document.getElementById("variant-save-btn").textContent =
+          "Save Variant";
+        document.getElementById("variant-img-preview").style.display = "none";
+        document.getElementById("variant-img-input").value = "";
+        document.getElementById("variant-img-current").textContent = "";
+        loadTypeDropdownForVariant(null);
+        document.getElementById("m-variant").classList.add("on");
+      }
+
+      async function openEditVariant(id) {
+        const v = _variantMap[id];
+        if (!v) return toast("Variant data not loaded", "to");
+        document.getElementById("variant-modal-ttl").textContent =
+          "Edit Variant";
+        document.getElementById("variant-id").value = v.id;
+        document.getElementById("variant-size").value = v.size_label || "";
+        document.getElementById("variant-rate").value = v.final_rate || "";
+        document.getElementById("variant-diff").value = v.differential || "";
+        document.getElementById("variant-note").value = v.extra_note || "";
+        document.getElementById("variant-save-btn").textContent =
+          "Update Variant";
+        document.getElementById("variant-img-preview").style.display = "none";
+        document.getElementById("variant-img-input").value = "";
+        const imgSrc = v.image || v.image_url || "";
+        document.getElementById("variant-img-current").textContent = imgSrc
+          ? "Current: " + imgSrc.split("/").pop()
+          : "No image uploaded yet";
+        await loadTypeDropdownForVariant(v.product_type);
+        document.getElementById("m-variant").classList.add("on");
+      }
+
+      async function saveVariant() {
+        const id = document.getElementById("variant-id").value;
+        const size = document.getElementById("variant-size").value.trim();
+        const typeId = document.getElementById("variant-type").value;
+        const rate = document.getElementById("variant-rate").value;
+        const diff = document.getElementById("variant-diff").value.trim();
+        const note = document.getElementById("variant-note").value.trim();
+        const imgFile = document.getElementById("variant-img-input").files[0];
+        if (!size || !typeId || !rate)
+          return toast("Size, Type and Rate are required", "tr");
+        const btn = document.getElementById("variant-save-btn");
+        btn.disabled = true;
+        btn.textContent = "Saving…";
+
+        let result;
+        if (imgFile) {
+          const fd = new FormData();
+          fd.append("size_label", size);
+          fd.append("product_type", parseInt(typeId));
+          fd.append("final_rate", parseFloat(rate));
+          fd.append("differential", diff);
+          fd.append("extra_note", note);
+          fd.append("image", imgFile);
+          result = await req(
+            id ? `/admin/product-variants/${id}/` : "/admin/product-variants/",
+            { method: id ? "PATCH" : "POST", body: fd },
+          );
+        } else {
+          const payload = {
+            size_label: size,
+            product_type: parseInt(typeId),
+            final_rate: parseFloat(rate),
+            differential: diff,
+            extra_note: note,
+          };
+          result = await req(
+            id ? `/admin/product-variants/${id}/` : "/admin/product-variants/",
+            { method: id ? "PATCH" : "POST", body: JSON.stringify(payload) },
+          );
+        }
+        btn.disabled = false;
+        btn.textContent = id ? "Update Variant" : "Save Variant";
+        if (result && result.id) {
+          toast(id ? "Variant updated!" : "Variant added!", "tg");
+          closeModal("m-variant");
+          loadVariants();
+        }
+      }
+
+      // ── EXCEL UPLOAD ──────────────────────────────────
+      async function handleExcelUpload(input) {
+        const file = input.files[0];
+        if (!file) return;
+        const resultDiv = document.getElementById("upload-result");
+        resultDiv.innerHTML = '<span class="spinner"></span> Processing Excel…';
+        const fd = new FormData();
+        fd.append("file", file);
+        const res = await req("/admin/upload-excel/", {
+          method: "POST",
+          body: fd,
+        });
+        if (res && res.success) {
+          resultDiv.innerHTML = `<span style="color:#22c55e">✅ ${res.message}<br><small style="color:var(--brown)">Updated: ${res.updated || 0} &nbsp;|&nbsp; Skipped: ${res.skipped || 0}</small></span>`;
+          toast("Rates imported successfully!", "tg");
+          if (document.getElementById("v-variants").classList.contains("on"))
+            loadVariants();
+        } else {
+          resultDiv.innerHTML = `<span style="color:#ef4444">❌ Upload failed. Check file format or console.</span>`;
+        }
+        input.value = "";
+      }
+
+      // ── INQUIRIES ─────────────────────────────────────
+      let _inqFilter = "";
+      let _inqMap = {};
+
+      async function loadInquiries(filter) {
+        _inqFilter = filter;
+        const url = filter
+          ? `/admin/inquiries/?status=${filter}`
+          : "/admin/inquiries/";
+        let data = await req(url);
+        if (!data) return;
+        const q = (document.getElementById("inquiries-search")?.value || "")
+          .toLowerCase()
+          .trim();
+        if (q)
+          data = data.filter(
+            (i) =>
+              (i.name || "").toLowerCase().includes(q) ||
+              (i.email || "").toLowerCase().includes(q) ||
+              (i.product_interest || "").toLowerCase().includes(q),
+          );
+        _inqMap = {};
+        data.forEach((i) => (_inqMap[i.id] = i));
+        const html = data.length
+          ? data
+              .map(
+                (i) => `
+            <tr>
+              <td><strong>${esc(i.name)}</strong></td>
+              <td>${esc(i.email || "—")}</td>
+              <td>${esc(i.phone || "—")}</td>
+              <td>${esc(i.product_interest || "—")}</td>
+              <td>${fmtDate(i.created_at)}</td>
+              <td>${i.is_read ? '<span class="badge-a">✅ Read</span>' : '<span style="color:#f59e0b;font-weight:600">🟠 Unread</span>'}</td>
+              <td><div class="act-btns">
+                <button class="btn btn-gh btn-sm" onclick="viewInquiry(${i.id})">View</button>
+                ${!i.is_read ? `<button class="btn btn-g btn-sm" onclick="markRead(${i.id})">Mark Read</button>` : ""}
+                <button class="btn btn-r btn-sm" onclick="delInq(${i.id})">Delete</button>
+              </div></td>
+            </tr>`,
+              )
+              .join("")
+          : '<tr><td colspan="7" class="empty-state">No inquiries found</td></tr>';
+        document.getElementById("inq-tbody").innerHTML = html;
+      }
+
+      function filterInqs(val) {
+        loadInquiries(val);
+      }
+
+      function viewInquiry(id) {
+        const i = _inqMap[id];
+        if (!i) return;
+        document.getElementById("inq-detail-body").innerHTML = `
+          <div style="display:grid;gap:14px">
+            <div><div class="f-lbl">Name</div><div>${esc(i.name)}</div></div>
+            <div><div class="f-lbl">Email</div><div><a href="mailto:${esc(i.email)}" style="color:var(--orange)">${esc(i.email || "—")}</a></div></div>
+            <div><div class="f-lbl">Phone</div><div>${esc(i.phone || "—")}</div></div>
+            <div><div class="f-lbl">Company</div><div>${esc(i.company || "—")}</div></div>
+            <div><div class="f-lbl">Product Interest</div><div>${esc(i.product_interest || "—")}</div></div>
+            <div><div class="f-lbl">Message</div><div style="background:var(--bg2);padding:12px;border-radius:4px;white-space:pre-wrap;font-size:.9rem">${esc(i.message || "—")}</div></div>
+            <div><div class="f-lbl">Date</div><div>${fmtDate(i.created_at)}</div></div>
+            <div><div class="f-lbl">Status</div><div>${i.is_read ? "✅ Read" : "🟠 Unread"}</div></div>
+          </div>`;
+        document.getElementById("m-inq").classList.add("on");
+      }
+
+      async function markRead(id) {
+        const r = await req(`/admin/inquiries/${id}/read/`, {
+          method: "PATCH",
+        });
+        if (r?.success) {
+          toast("Marked as read", "tg");
+          if (_inqMap[id]) _inqMap[id].is_read = true;
+          loadInquiries(_inqFilter);
+          loadDashboard();
+        }
+      }
+
+      async function delInq(id) {
+        if (!confirm("Delete this inquiry permanently?")) return;
+        const r = await req(`/admin/inquiries/${id}/delete/`, {
+          method: "DELETE",
+        });
+        if (r?.success) {
+          toast("Deleted", "tg");
+          delete _inqMap[id];
+          loadInquiries(_inqFilter);
+        }
+      }
+
+      // ── TABLE SORT ────────────────────────────────────
+      function sortTable(colIndex, tbodyId) {
+        const tbody = document.getElementById(tbodyId);
+        const rows = Array.from(tbody.rows);
+        const isAsc = tbody.dataset.sortDir !== "asc";
+        rows.sort((a, b) => {
+          let va = a.cells[colIndex]?.textContent.trim() || "";
+          let vb = b.cells[colIndex]?.textContent.trim() || "";
+          if (va.startsWith("₹")) {
+            va = parseFloat(va.replace(/[₹,]/g, "")) || 0;
+            vb = parseFloat(vb.replace(/[₹,]/g, "")) || 0;
+          }
+          return isAsc
+            ? va > vb
+              ? 1
+              : va < vb
+                ? -1
+                : 0
+            : vb > va
+              ? 1
+              : vb < va
+                ? -1
+                : 0;
+        });
+        tbody.innerHTML = "";
+        rows.forEach((r) => tbody.appendChild(r));
+        tbody.dataset.sortDir = isAsc ? "asc" : "desc";
+      }
+
+      // ── MODAL HELPERS ─────────────────────────────────
+      function closeModal(id) {
+        document.getElementById(id).classList.remove("on");
+      }
+      document.querySelectorAll(".overlay").forEach((ov) =>
+        ov.addEventListener("click", (e) => {
+          if (e.target === ov) closeModal(ov.id);
+        }),
+      );
+
+      // ── GLOBAL SEARCH ─────────────────────────────────
+      function handleGlobalSearch() {
+        const term = document.getElementById("global-search").value.trim();
+        if (!term) return;
+        const active = document.querySelector(".view.on")?.id;
+        const map = {
+          "v-types": "types-search",
+          "v-variants": "variants-search",
+          "v-categories": "categories-search",
+          "v-inquiries": "inquiries-search",
+        };
+        if (map[active]) {
+          document.getElementById(map[active]).value = term;
+        }
+        if (active === "v-types") loadTypes();
+        else if (active === "v-variants") loadVariants();
+        else if (active === "v-categories") loadCategories();
+        else if (active === "v-inquiries") loadInquiries(_inqFilter);
+      }
+
+      // ── INIT ──────────────────────────────────────────
+      document.addEventListener("DOMContentLoaded", () => {
+        sw("dashboard");
+        req("/admin/categories/").then((data) => {
+          if (data) data.forEach((c) => (_catMap[c.id] = c));
+        });
+      });
+    </script>
+  </body>
 </html>

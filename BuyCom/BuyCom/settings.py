@@ -74,25 +74,29 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "BuyCom.wsgi.application"
+# WSGI_APPLICATION = "BuyCom.wsgi.application"
+
+ASGI_APPLICATION = 'BuyCom.asgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
-
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL', 'postgresql://buycomdb_user:9NAQUfhgSBti1tk56nW2gSuLzX4I1dXg@dpg-d79p6jvkijhs7391qqp0-a.ohio-postgres.render.com/buycomdb')
-    )
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
 }
 
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default=os.getenv('DATABASE_URL', 'postgresql://buycomdb_user:9NAQUfhgSBti1tk56nW2gSuLzX4I1dXg@dpg-d79p6jvkijhs7391qqp0-a.ohio-postgres.render.com/buycomdb')
+#     )
+# }
+
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 
