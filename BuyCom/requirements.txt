@@ -4,9 +4,8 @@ django-cors-headers==4.4.0
 whitenoise==6.7.0
 daphne==4.1.0
 pillow==10.4.0
-psycopg2-binary==2.9.10
 dj-database-url==2.3.0
-psycopg2==2.9.10
+psycopg2-binary==2.9.10
 pandas==2.2.3
-numpy==2.3.0
-scipy==1.12.1
+numpy==1.26.4
+scipy==1.12.0
