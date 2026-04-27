@@ -9,4 +9,3 @@ dj-database-url==2.3.0
 psycopg2-binary==2.9.10
 pandas==2.2.3
 numpy==1.26.4
-scipy==1.12.0
